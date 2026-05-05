@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class RoleSelectionActivity extends AppCompatActivity {
 
-    private Button buttonUserLogin;
+    private Button buttonParticipantLogin;
     private Button buttonOrganizerLogin;
     private Button buttonAdminLogin;
 
@@ -29,11 +29,11 @@ public class RoleSelectionActivity extends AppCompatActivity {
             return insets;
         });
 
-        buttonUserLogin = findViewById(R.id.buttonUserLogin);
+        buttonParticipantLogin = findViewById(R.id.buttonParticipantLogin);
         buttonOrganizerLogin = findViewById(R.id.buttonOrganizerLogin);
         buttonAdminLogin = findViewById(R.id.buttonAdminLogin);
 
-        buttonUserLogin.setOnClickListener(new View.OnClickListener() {
+        buttonParticipantLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RoleSelectionActivity.this, LoginActivity.class);

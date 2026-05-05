@@ -32,11 +32,11 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/buttonUserLogin"
+        android:id="@+id/buttonParticipantLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Log in as User"
+        android:text="Log in as Participant"
         app:layout_constraintTop_toBottomOf="@id/textViewSubtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Log in as Organizer"
-        app:layout_constraintTop_toBottomOf="@id/buttonUserLogin"
+        app:layout_constraintTop_toBottomOf="@id/buttonParticipantLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
