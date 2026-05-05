@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Color -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#8E0E00" />
+        </shape>
+    </item>
+
+    <!-- Your Batik Pattern Image -->
+    <item>
+        <bitmap
+            android:src="@drawable/bg_header_pattern"
+            android:tileMode="repeat"
+            android:alpha="0.6" />
+    </item>
+
+    <!-- Gradient Overlay for better text readability -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#00000000"
+                android:endColor="#80000000" />
+        </shape>
+    </item>
+
+    <!-- Premium Glow -->
+    <item
+        android:width="400dp"
+        android:height="400dp"
+        android:top="-200dp"
+        android:right="-150dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="200dp"
+                android:startColor="#40FF5252"
+                android:endColor="#00FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="admin_red_primary">#D32F2F</color>
+    <color name="admin_red_dark">#B71C1C</color>
+    <color name="admin_red_light">#EF5350</color>
+    <color name="background_light">#F8F9FA</color>
+    <color name="gold_accent">#FFD700</color>
+    <color name="glass_white">#26FFFFFF</color>
+    <color name="box_stroke_color">#6200EE</color>
 </resources>

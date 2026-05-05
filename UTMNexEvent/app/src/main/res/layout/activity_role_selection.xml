@@ -5,60 +5,107 @@
     android:id="@+id/role_selection_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@color/background_light"
     tools:context=".RoleSelectionActivity">
+
+    <!-- FANCY HEADER -->
+    <View
+        android:id="@+id/viewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/bg_header_simple"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- CIRCULAR LOGO -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="40dp"
+        android:background="#FFFFFF"
+        android:contentDescription="@string/app_logo"
+        android:elevation="8dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+        app:strokeColor="#E0E0E0"
+        app:strokeWidth="1dp" />
 
     <TextView
         android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="UTM NexEvent"
-        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:layout_marginTop="64dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
 
     <TextView
         android:id="@+id/textViewSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Choose your role"
+        android:textColor="@color/white"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewWelcome"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textViewWelcome" />
 
-    <Button
-        android:id="@+id/buttonParticipantLogin"
-        android:layout_width="0dp"
+    <!-- Selection Area -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Log in as Participant"
-        app:layout_constraintTop_toBottomOf="@id/textViewSubtitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintTop_toBottomOf="@id/viewHeader">
 
-    <Button
-        android:id="@+id/buttonOrganizerLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Log in as Organizer"
-        app:layout_constraintTop_toBottomOf="@id/buttonParticipantLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonParticipantLogin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/admin_red_light"
+            android:text="Log in as Participant"
+            android:textColor="@android:color/white"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_myplaces"
+            app:iconTint="@color/black"
+            app:rippleColor="@color/background_light" />
 
-    <Button
-        android:id="@+id/buttonAdminLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Log in as Admin"
-        app:layout_constraintTop_toBottomOf="@id/buttonOrganizerLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonOrganizerLogin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/admin_red_primary"
+            android:text="Log in as Organizer"
+            android:textColor="@android:color/white"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_today"
+            app:iconTint="@color/black"
+            app:rippleColor="@color/background_light" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonAdminLogin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/admin_red_dark"
+            android:text="Log in as Admin"
+            android:textColor="@android:color/white"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_lock_lock"
+            app:iconTint="@color/black"
+            app:rippleColor="@color/background_light" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

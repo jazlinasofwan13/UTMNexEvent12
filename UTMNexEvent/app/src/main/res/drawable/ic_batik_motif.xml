@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Simplified Batik Kawung Motif -->
+    <path
+        android:fillColor="#1AFFFFFF"
+        android:pathData="M50,50m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0" />
+    <path
+        android:fillColor="#26FFFFFF"
+        android:pathData="M50,10c5,15 20,25 40,25c-20,0 -35,10 -40,25c-5,-15 -20,-25 -40,-25c20,0 35,-10 40,-25" />
+    <path
+        android:fillColor="#26FFFFFF"
+        android:pathData="M50,90c5,-15 20,-25 40,-25c-20,0 -35,-10 -40,-25c-5,15 -20,25 -40,25c20,0 35,10 40,25" />
+    <path
+        android:fillColor="#1AFFFFFF"
+        android:pathData="M10,50c15,5 25,20 25,40c0,-20 10,-35 25,-40c-15,-5 -25,-20 -25,-40c0,20 -10,35 -25,40" />
+    <path
+        android:fillColor="#1AFFFFFF"
+        android:pathData="M90,50c-15,5 -25,20 -25,40c0,-20 -10,-35 -25,-40c15,-5 25,-20 25,-40c0,20 10,35 25,40" />
+</vector>
