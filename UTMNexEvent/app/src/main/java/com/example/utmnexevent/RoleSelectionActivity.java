@@ -41,18 +41,20 @@ public class RoleSelectionActivity extends AppCompatActivity {
             }
         });
 
-        // Organizer and Admin buttons are currently not linked to any activity
+        // Organizer button now links to OrganizerLoginActivity
         buttonOrganizerLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Placeholder for Organizer Login
+                Intent intent = new Intent(RoleSelectionActivity.this, OrganizerLoginActivity.class);
+                startActivity(intent);
             }
         });
 
         buttonAdminLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Placeholder for Admin Login
+                Intent intent = new Intent(RoleSelectionActivity.this, AdminLoginActivity.class);
+                startActivity(intent);
             }
         });
     }

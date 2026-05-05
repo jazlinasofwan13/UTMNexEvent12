@@ -27,6 +27,21 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
+            android:name=".OrganizerLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrganizerSignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrganizerHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
     </application>
