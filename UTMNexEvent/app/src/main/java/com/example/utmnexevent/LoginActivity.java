@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText editTextPassword;
     private Button buttonLogin;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -78,10 +82,31 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            // Check if the user is a participant
+                            String userId = mAuth.getCurrentUser().getUid();
+                            db.collection("users").document(userId).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful() && task.getResult().exists()) {
+                                                String role = task.getResult().getString("role");
+                                                if ("participant".equals(role)) {
+                                                    Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    mAuth.signOut();
+                                                    Toast.makeText(LoginActivity.this, "Access denied. This is a participant login.", Toast.LENGTH_SHORT).show();
+                                                    buttonLogin.setEnabled(true);
+                                                }
+                                            } else {
+                                                mAuth.signOut();
+                                                Toast.makeText(LoginActivity.this, "Error fetching user data.", Toast.LENGTH_SHORT).show();
+                                                buttonLogin.setEnabled(true);
+                                            }
+                                        }
+                                    });
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             buttonLogin.setEnabled(true);

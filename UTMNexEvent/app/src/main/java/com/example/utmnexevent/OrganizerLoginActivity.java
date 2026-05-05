@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class OrganizerLoginActivity extends AppCompatActivity {
 
@@ -26,6 +28,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
     private TextInputEditText editTextPassword;
     private Button buttonLogin;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organizer_login);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.organizer_login_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -78,11 +82,31 @@ public class OrganizerLoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(OrganizerLoginActivity.this, "Organizer Login successful!", Toast.LENGTH_SHORT).show();
-                            // Navigate to Organizer Home instead of MainActivity
-                            Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerHomeActivity.class);
-                            startActivity(intent);
-                            finish();
+                            // Check if the user is an organizer
+                            String userId = mAuth.getCurrentUser().getUid();
+                            db.collection("users").document(userId).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful() && task.getResult().exists()) {
+                                                String role = task.getResult().getString("role");
+                                                if ("organizer".equals(role)) {
+                                                    Toast.makeText(OrganizerLoginActivity.this, "Organizer Login successful!", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerHomeActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    mAuth.signOut();
+                                                    Toast.makeText(OrganizerLoginActivity.this, "Access denied. This is an organizer login.", Toast.LENGTH_SHORT).show();
+                                                    buttonLogin.setEnabled(true);
+                                                }
+                                            } else {
+                                                mAuth.signOut();
+                                                Toast.makeText(OrganizerLoginActivity.this, "Error fetching user data.", Toast.LENGTH_SHORT).show();
+                                                buttonLogin.setEnabled(true);
+                                            }
+                                        }
+                                    });
                         } else {
                             Toast.makeText(OrganizerLoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             buttonLogin.setEnabled(true);
