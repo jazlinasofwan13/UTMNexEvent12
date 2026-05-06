@@ -28,6 +28,16 @@ public class OrganizerHomeActivity extends AppCompatActivity {
         });
 
         Button buttonLogout = findViewById(R.id.buttonOrgLogout);
+        View imageViewProfile = findViewById(R.id.imageViewOrgProfile);
+
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrganizerHomeActivity.this, OrganizerProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

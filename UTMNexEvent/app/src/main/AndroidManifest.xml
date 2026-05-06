@@ -36,6 +36,9 @@
             android:name=".OrganizerHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".OrganizerProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminLoginActivity"
             android:exported="false" />
         <activity
@@ -43,6 +46,9 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParticipantProfileActivity"
             android:exported="false" />
     </application>
 

@@ -28,6 +28,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button buttonLogout = findViewById(R.id.buttonLogout);
+        View imageViewProfile = findViewById(R.id.imageViewProfile);
+
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ParticipantProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

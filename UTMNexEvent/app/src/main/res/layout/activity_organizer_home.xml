@@ -34,6 +34,25 @@
         app:strokeColor="#E0E0E0"
         app:strokeWidth="1dp" />
 
+    <!-- PROFILE ICON -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewOrgProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+        app:strokeColor="#E0E0E0"
+        app:strokeWidth="1dp" />
+
     <TextView
         android:id="@+id/textViewOrgHomeTitle"
         android:layout_width="wrap_content"
