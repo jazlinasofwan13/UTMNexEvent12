@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +23,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private Button buttonLogin;
+    private RadioGroup radioGroupRole;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
+        radioGroupRole = findViewById(R.id.radioGroupRole);
         TextView textViewSignup = findViewById(R.id.textViewSignup);
         TextView textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
 
@@ -76,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         textViewSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // For simplicity, default signup goes to participant. 
+                // You might want to ask the user which one they want.
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
@@ -98,6 +105,19 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        int selectedId = radioGroupRole.getCheckedRadioButtonId();
+        final String selectedRole;
+        if (selectedId == R.id.radioParticipant) {
+            selectedRole = "participant";
+        } else if (selectedId == R.id.radioOrganizer) {
+            selectedRole = "organizer";
+        } else if (selectedId == R.id.radioAdmin) {
+            selectedRole = "admin";
+        } else {
+            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         buttonLogin.setEnabled(false);
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -105,36 +125,66 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Check if the user is a participant
-                            String userId = mAuth.getCurrentUser().getUid();
-                            db.collection("users").document(userId).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful() && task.getResult().exists()) {
-                                                String role = task.getResult().getString("role");
-                                                if ("participant".equals(role)) {
-                                                    Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                } else {
-                                                    mAuth.signOut();
-                                                    Toast.makeText(LoginActivity.this, "Access denied. This is a participant login.", Toast.LENGTH_SHORT).show();
-                                                    buttonLogin.setEnabled(true);
-                                                }
-                                            } else {
-                                                mAuth.signOut();
-                                                Toast.makeText(LoginActivity.this, "Error fetching user data.", Toast.LENGTH_SHORT).show();
-                                                buttonLogin.setEnabled(true);
-                                            }
-                                        }
-                                    });
+                            checkUserRole(selectedRole);
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             buttonLogin.setEnabled(true);
                         }
                     }
                 });
+    }
+
+    private void checkUserRole(String selectedRole) {
+        String userId = mAuth.getCurrentUser().getUid();
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            DocumentSnapshot document = task.getResult();
+                            Object rolesObj = document.get("role"); // Could be String or List<String>
+                            boolean hasAccess = false;
+
+                            if (rolesObj instanceof String) {
+                                if (selectedRole.equals(rolesObj)) {
+                                    hasAccess = true;
+                                }
+                            } else if (rolesObj instanceof List) {
+                                List<String> rolesList = (List<String>) rolesObj;
+                                if (rolesList.contains(selectedRole)) {
+                                    hasAccess = true;
+                                }
+                            }
+
+                            if (hasAccess) {
+                                navigateToHome(selectedRole);
+                            } else {
+                                mAuth.signOut();
+                                Toast.makeText(LoginActivity.this, "Access denied for " + selectedRole + " role.", Toast.LENGTH_SHORT).show();
+                                buttonLogin.setEnabled(true);
+                            }
+                        } else {
+                            mAuth.signOut();
+                            Toast.makeText(LoginActivity.this, "User data not found.", Toast.LENGTH_SHORT).show();
+                            buttonLogin.setEnabled(true);
+                        }
+                    }
+                });
+    }
+
+    private void navigateToHome(String role) {
+        Intent intent;
+        if ("participant".equals(role)) {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+        } else if ("organizer".equals(role)) {
+            intent = new Intent(LoginActivity.this, OrganizerHomeActivity.class);
+        } else if ("admin".equals(role)) {
+            intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
+        } else {
+            return;
+        }
+        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
     }
 }

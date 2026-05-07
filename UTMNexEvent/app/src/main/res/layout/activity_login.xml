@@ -115,6 +115,43 @@
                 android:textColor="#D32F2F"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Login as:"
+                android:textStyle="bold"
+                android:textColor="#757575" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioParticipant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Participant"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radioOrganizer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Organizer" />
+
+                <RadioButton
+                    android:id="@+id/radioAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Admin" />
+            </RadioGroup>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"

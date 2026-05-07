@@ -3,6 +3,7 @@ package com.example.utmnexevent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private TextInputEditText editTextConfirmPassword;
+    private RadioGroup radioGroupRole;
     private Button buttonRegister;
 
     private FirebaseAuth mAuth;
@@ -52,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmailSignup);
         editTextPassword = findViewById(R.id.editTextPasswordSignup);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        radioGroupRole = findViewById(R.id.radioGroupRoleSignup);
         buttonRegister = findViewById(R.id.buttonRegister);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +86,18 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        buttonRegister.setEnabled(false); // Prevent multiple clicks
+        int selectedId = radioGroupRole.getCheckedRadioButtonId();
+        final String selectedRole;
+        if (selectedId == R.id.radioParticipantSignup) {
+            selectedRole = "participant";
+        } else if (selectedId == R.id.radioOrganizerSignup) {
+            selectedRole = "organizer";
+        } else {
+            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        buttonRegister.setEnabled(false);
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -95,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
                             Map<String, Object> user = new HashMap<>();
                             user.put("fullName", fullName);
                             user.put("email", email);
-                            user.put("role", "participant");
+                            user.put("role", selectedRole);
 
                             db.collection("users").document(userId)
                                     .set(user)
@@ -103,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Toast.makeText(SignupActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignupActivity.this, "Registration successful as " + selectedRole + "!", Toast.LENGTH_SHORT).show();
                                                 finish();
                                             } else {
                                                 Toast.makeText(SignupActivity.this, "Failed to save user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

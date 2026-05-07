@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UTMNexEvent">
         <activity
-            android:name=".RoleSelectionActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,13 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OrganizerLoginActivity"
             android:exported="false" />
         <activity
             android:name=".OrganizerSignupActivity"
@@ -37,9 +31,6 @@
             android:exported="false" />
         <activity
             android:name=".OrganizerProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminLoginActivity"
             android:exported="false" />
         <activity
             android:name=".AdminHomeActivity"
