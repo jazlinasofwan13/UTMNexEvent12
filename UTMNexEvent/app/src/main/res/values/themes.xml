@@ -7,6 +7,12 @@
 
     <style name="Theme.UTMNexEvent" parent="Base.Theme.UTMNexEvent" />
 
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
+        <item name="windowSplashScreenBackground">#D32F2F</item> <!-- UTM Red -->
+        <item name="postSplashScreenTheme">@style/Theme.UTMNexEvent</item>
+    </style>
+
     <style name="ShapeAppearance.Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
