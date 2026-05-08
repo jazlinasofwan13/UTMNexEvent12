@@ -17,33 +17,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageViewLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="60dp"
+        android:id="@+id/imageViewOrgProfilePic"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="50dp"
         android:background="#FFFFFF"
         android:elevation="8dp"
-        android:padding="16dp"
-        android:src="@drawable/ic_logo"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
         app:strokeColor="#F1F3F4"
-        app:strokeWidth="2dp" />
+        app:strokeWidth="4dp" />
 
     <TextView
         android:id="@+id/textViewOrgProfileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="Organizer Profile"
         android:textColor="#FFFFFF"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewOrgProfilePic" />
 
     <!-- Profile Actions Card -->
     <com.google.android.material.card.MaterialCardView
@@ -60,7 +61,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="32dp">
+            android:padding="32dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/textViewOrgDisplayName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Organizer Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textViewOrgDisplayEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="org@example.com"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="24dp"
+                android:background="#EEEEEE" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonOrgChangePassword"

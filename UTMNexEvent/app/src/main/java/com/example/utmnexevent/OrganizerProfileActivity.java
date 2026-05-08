@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,10 +23,16 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class OrganizerProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
+    private ImageView imageViewProfilePic;
+    private TextView textViewDisplayName, textViewDisplayEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,7 @@ public class OrganizerProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organizer_profile);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.organizer_profile_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -40,22 +49,38 @@ public class OrganizerProfileActivity extends AppCompatActivity {
             return insets;
         });
 
+        imageViewProfilePic = findViewById(R.id.imageViewOrgProfilePic);
+        textViewDisplayName = findViewById(R.id.textViewOrgDisplayName);
+        textViewDisplayEmail = findViewById(R.id.textViewOrgDisplayEmail);
         Button buttonChangePassword = findViewById(R.id.buttonOrgChangePassword);
         Button buttonBack = findViewById(R.id.buttonOrgBack);
 
-        buttonChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChangePasswordDialog();
-            }
-        });
+        // Set default profile picture
+        imageViewProfilePic.setImageResource(android.R.drawable.ic_menu_gallery);
 
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        loadUserData();
+
+        buttonChangePassword.setOnClickListener(v -> showChangePasswordDialog());
+
+        buttonBack.setOnClickListener(v -> finish());
+    }
+
+    private void loadUserData() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            db.collection("users").document(userId).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            DocumentSnapshot document = task.getResult();
+                            String fullName = document.getString("fullName");
+                            String email = document.getString("email");
+
+                            textViewDisplayName.setText(fullName);
+                            textViewDisplayEmail.setText(email);
+                        }
+                    });
+        }
     }
 
     private void showChangePasswordDialog() {

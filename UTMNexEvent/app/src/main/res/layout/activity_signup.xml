@@ -138,31 +138,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Register as:"
+                    android:text="Register as (Select one or both):"
                     android:textStyle="bold"
                     android:textColor="#757575" />
 
-                <RadioGroup
-                    android:id="@+id/radioGroupRoleSignup"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radioParticipantSignup"
+                    <CheckBox
+                        android:id="@+id/checkboxParticipant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Participant"
                         android:checked="true" />
 
-                    <RadioButton
-                        android:id="@+id/radioOrganizerSignup"
+                    <CheckBox
+                        android:id="@+id/checkboxOrganizer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Organizer" />
-                </RadioGroup>
+                </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonRegister"

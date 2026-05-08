@@ -3,7 +3,7 @@ package com.example.utmnexevent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioGroup;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,9 +18,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
@@ -29,7 +33,8 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private TextInputEditText editTextConfirmPassword;
-    private RadioGroup radioGroupRole;
+    private CheckBox checkboxParticipant;
+    private CheckBox checkboxOrganizer;
     private Button buttonRegister;
 
     private FirebaseAuth mAuth;
@@ -54,7 +59,8 @@ public class SignupActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmailSignup);
         editTextPassword = findViewById(R.id.editTextPasswordSignup);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
-        radioGroupRole = findViewById(R.id.radioGroupRoleSignup);
+        checkboxParticipant = findViewById(R.id.checkboxParticipant);
+        checkboxOrganizer = findViewById(R.id.checkboxOrganizer);
         buttonRegister = findViewById(R.id.buttonRegister);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -86,14 +92,12 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        int selectedId = radioGroupRole.getCheckedRadioButtonId();
-        final String selectedRole;
-        if (selectedId == R.id.radioParticipantSignup) {
-            selectedRole = "participant";
-        } else if (selectedId == R.id.radioOrganizerSignup) {
-            selectedRole = "organizer";
-        } else {
-            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
+        List<String> selectedRoles = new ArrayList<>();
+        if (checkboxParticipant.isChecked()) selectedRoles.add("participant");
+        if (checkboxOrganizer.isChecked()) selectedRoles.add("organizer");
+
+        if (selectedRoles.isEmpty()) {
+            Toast.makeText(this, "Please select at least one role", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -104,29 +108,99 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Save additional user info to Firestore
-                            String userId = mAuth.getCurrentUser().getUid();
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("fullName", fullName);
-                            user.put("email", email);
-                            user.put("role", selectedRole);
+                            saveUserData(fullName, email, selectedRoles);
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                // User already exists, try to update roles
+                                updateExistingUserRoles(email, password, selectedRoles);
+                            } else {
+                                Toast.makeText(SignupActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                buttonRegister.setEnabled(true);
+                            }
+                        }
+                    }
+                });
+    }
 
-                            db.collection("users").document(userId)
-                                    .set(user)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void saveUserData(String fullName, String email, List<String> roles) {
+        String userId = mAuth.getCurrentUser().getUid();
+        Map<String, Object> user = new HashMap<>();
+        user.put("fullName", fullName);
+        user.put("email", email);
+        user.put("role", roles);
+
+        db.collection("users").document(userId)
+                .set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignupActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(SignupActivity.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                            buttonRegister.setEnabled(true);
+                        }
+                    }
+                });
+    }
+
+    private void updateExistingUserRoles(String email, String password, List<String> newRoles) {
+        // We need to sign in first to get the UID for the existing email
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String userId = mAuth.getCurrentUser().getUid();
+                            db.collection("users").document(userId).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                             if (task.isSuccessful()) {
-                                                Toast.makeText(SignupActivity.this, "Registration successful as " + selectedRole + "!", Toast.LENGTH_SHORT).show();
-                                                finish();
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document != null && document.exists()) {
+                                                    Object currentRoleObj = document.get("role");
+                                                    List<String> combinedRoles = new ArrayList<>();
+
+                                                    if (currentRoleObj instanceof String) {
+                                                        combinedRoles.add((String) currentRoleObj);
+                                                    } else if (currentRoleObj instanceof List) {
+                                                        combinedRoles.addAll((List<String>) currentRoleObj);
+                                                    }
+
+                                                    for (String role : newRoles) {
+                                                        if (!combinedRoles.contains(role)) {
+                                                            combinedRoles.add(role);
+                                                        }
+                                                    }
+
+                                                    db.collection("users").document(userId)
+                                                            .update("role", combinedRoles)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(SignupActivity.this, "Account roles updated successfully!", Toast.LENGTH_SHORT).show();
+                                                                        finish();
+                                                                    } else {
+                                                                        Toast.makeText(SignupActivity.this, "Failed to update roles", Toast.LENGTH_SHORT).show();
+                                                                        buttonRegister.setEnabled(true);
+                                                                    }
+                                                                }
+                                                            });
+                                                } else {
+                                                    Toast.makeText(SignupActivity.this, "User record not found in database.", Toast.LENGTH_SHORT).show();
+                                                    buttonRegister.setEnabled(true);
+                                                }
                                             } else {
-                                                Toast.makeText(SignupActivity.this, "Failed to save user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignupActivity.this, "Error fetching user data.", Toast.LENGTH_SHORT).show();
                                                 buttonRegister.setEnabled(true);
                                             }
                                         }
                                     });
                         } else {
-                            Toast.makeText(SignupActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Incorrect password for existing account.", Toast.LENGTH_LONG).show();
                             buttonRegister.setEnabled(true);
                         }
                     }
