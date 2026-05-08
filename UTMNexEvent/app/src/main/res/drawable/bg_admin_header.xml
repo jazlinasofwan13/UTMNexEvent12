@@ -10,7 +10,7 @@
     <!-- Your Batik Pattern Image -->
     <item>
         <bitmap
-            android:src="@drawable/bg_header_pattern"
+            android:src="@drawable/organizer_bg_header_pattern"
             android:tileMode="repeat"
             android:alpha="0.6" />
     </item>

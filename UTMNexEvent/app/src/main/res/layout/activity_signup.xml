@@ -13,7 +13,7 @@
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/bg_header_simple"
+        android:background="@drawable/participants_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CIRCULAR LOGO -->
@@ -41,7 +41,7 @@
         android:layout_marginTop="8dp"
         android:text="Create Account"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,12 +74,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextFullName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Full Name"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -88,12 +90,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEmailSignup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textEmailAddress"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,12 +107,14 @@
                     android:layout_marginTop="16dp"
                     app:passwordToggleEnabled="true"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPasswordSignup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Password"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -118,12 +124,14 @@
                     android:layout_marginTop="16dp"
                     app:passwordToggleEnabled="true"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextConfirmPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Confirm Password"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView

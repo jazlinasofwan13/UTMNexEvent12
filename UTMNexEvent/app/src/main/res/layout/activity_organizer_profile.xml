@@ -13,7 +13,7 @@
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@drawable/bg_header_simple"
+        android:background="@drawable/organizer_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -70,7 +70,7 @@
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
+                android:backgroundTint="@color/organizer_blue_primary"
                 app:cornerRadius="12dp"
                 app:icon="@android:drawable/ic_lock_idle_lock"
                 app:iconGravity="textStart" />
@@ -84,8 +84,8 @@
                 android:text="Back to Home"
                 android:textAllCaps="false"
                 android:textSize="16sp"
-                android:textColor="#D32F2F"
-                app:strokeColor="#D32F2F"
+                android:textColor="@color/organizer_blue_primary"
+                app:strokeColor="@color/organizer_blue_primary"
                 app:cornerRadius="12dp" />
 
         </LinearLayout>

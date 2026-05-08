@@ -13,7 +13,7 @@
         android:id="@+id/viewHeaderBackground"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@drawable/bg_admin_header"
+        android:background="@drawable/organizer_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CIRCULAR LOGO -->
@@ -61,32 +61,18 @@
         android:layout_marginTop="12dp"
         android:text="Welcome Organizer"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
-
-    <TextView
-        android:id="@+id/textViewOrgHomeSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:text="Organizer Control Panel"
-        android:textColor="#FFCDD2"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewOrgHomeTitle" />
 
     <!-- CONTENT AREA -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
         android:background="@drawable/bg_admin_content"
         android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewOrgHomeSubtitle">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,13 +89,13 @@
                 android:layout_marginBottom="24dp"
                 android:padding="16dp"
                 android:text="Log Out"
-                android:textColor="@color/admin_red_primary"
+                android:textColor="@color/organizer_blue_primary"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
                 app:icon="@android:drawable/ic_lock_power_off"
                 app:iconGravity="textStart"
-                app:iconTint="@color/admin_red_primary"
-                app:strokeColor="@color/admin_red_primary" />
+                app:iconTint="@color/organizer_blue_primary"
+                app:strokeColor="@color/organizer_blue_primary" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -13,7 +13,7 @@
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/bg_header_simple"
+        android:background="@drawable/organizer_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CIRCULAR LOGO -->
@@ -41,7 +41,7 @@
         android:layout_marginTop="8dp"
         android:text="Organizer Sign Up"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
                     android:layout_marginTop="24dp"
                     android:padding="12dp"
                     android:text="Register"
-                    android:backgroundTint="@color/admin_red_primary"
+                    android:backgroundTint="@color/organizer_blue_primary"
                     app:cornerRadius="8dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

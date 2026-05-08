@@ -13,7 +13,7 @@
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@drawable/bg_header_simple"
+        android:background="@drawable/participants_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView

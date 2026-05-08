@@ -13,7 +13,7 @@
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:background="@drawable/bg_header_simple"
+        android:background="@drawable/admin_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Administrator"
+        android:text="Welcome Back"
         android:textColor="#FFFFFF"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -79,13 +79,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Admin Email"
-                app:startIconDrawable="@android:drawable/ic_dialog_email">
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextAdminEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -96,13 +97,14 @@
                 android:layout_marginTop="16dp"
                 android:hint="Password"
                 app:passwordToggleEnabled="true"
-                app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextAdminPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -110,11 +112,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="32dp"
-                android:text="Authenticate"
+                android:text="LOGIN"
                 android:textAllCaps="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
+                android:backgroundTint="#000000"
                 app:cornerRadius="12dp" />
 
         </LinearLayout>

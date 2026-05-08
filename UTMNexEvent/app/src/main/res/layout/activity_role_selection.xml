@@ -77,7 +77,7 @@
             android:textColor="@android:color/white"
             app:cornerRadius="12dp"
             app:icon="@android:drawable/ic_menu_myplaces"
-            app:iconTint="@color/black"
+            app:iconTint="@color/white"
             app:rippleColor="@color/background_light" />
 
         <com.google.android.material.button.MaterialButton
@@ -85,12 +85,12 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/admin_red_primary"
+            android:backgroundTint="@color/organizer_blue_primary"
             android:text="Log in as Organizer"
             android:textColor="@android:color/white"
             app:cornerRadius="12dp"
             app:icon="@android:drawable/ic_menu_today"
-            app:iconTint="@color/black"
+            app:iconTint="@color/white"
             app:rippleColor="@color/background_light" />
 
         <com.google.android.material.button.MaterialButton
@@ -103,7 +103,7 @@
             android:textColor="@android:color/white"
             app:cornerRadius="12dp"
             app:icon="@android:drawable/ic_lock_lock"
-            app:iconTint="@color/black"
+            app:iconTint="@color/white"
             app:rippleColor="@color/background_light" />
 
     </LinearLayout>
