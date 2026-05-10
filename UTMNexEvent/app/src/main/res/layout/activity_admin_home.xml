@@ -45,12 +45,11 @@
         android:clickable="true"
         android:elevation="8dp"
         android:focusable="true"
-        android:padding="8dp"
-        android:src="@android:drawable/ic_menu_gallery"
+        android:src="@drawable/profile_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-        app:strokeColor="#E0E0E0"
+        app:strokeColor="@color/white"
         app:strokeWidth="1dp" />
 
     <TextView
