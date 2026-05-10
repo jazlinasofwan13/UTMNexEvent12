@@ -1,6 +1,7 @@
 package com.example.utmnexevent;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,10 +40,22 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // Auto-login logic
+        if (mAuth.getCurrentUser() != null) {
+            SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            String savedRole = prefs.getString("last_role", null);
+            if (savedRole != null) {
+                navigateToHome(savedRole);
+                return; // Stop execution so Login layout doesn't load
+            }
+        }
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login_main), (v, insets) -> {
@@ -175,6 +188,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToHome(String role) {
+        // Save the role for next time
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        prefs.edit().putString("last_role", role).apply();
+
         Intent intent;
         if ("participant".equals(role)) {
             intent = new Intent(LoginActivity.this, MainActivity.class);

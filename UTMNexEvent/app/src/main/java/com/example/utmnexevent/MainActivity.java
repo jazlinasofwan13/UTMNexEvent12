@@ -1,6 +1,7 @@
 package com.example.utmnexevent;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
                 // Logout from Firebase
                 FirebaseAuth.getInstance().signOut();
 
-                // Navigate back to RoleSelectionActivity
-                Intent intent = new Intent(MainActivity.this, RoleSelectionActivity.class);
+                // Clear the saved role
+                SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                prefs.edit().remove("last_role").apply();
+
+                // Navigate back to LoginActivity
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
