@@ -56,10 +56,9 @@ public class AdminProfileActivity extends AppCompatActivity {
         Button buttonBackHome = findViewById(R.id.buttonAdminBack);
         View buttonBack = findViewById(R.id.buttonAdminProfileBack);
 
-        // Set default profile picture
-        imageViewProfilePic.setImageResource(android.R.drawable.ic_menu_gallery);
-
         loadUserData();
+
+        imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
         buttonChangePassword.setOnClickListener(v -> showChangePasswordDialog());
 
@@ -77,12 +76,41 @@ public class AdminProfileActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             String fullName = document.getString("fullName");
                             String email = document.getString("email");
+                            String avatarId = document.getString("avatarId");
 
                             textViewDisplayName.setText(fullName);
                             textViewDisplayEmail.setText(email);
+                            
+                            imageViewProfilePic.setImageResource(AvatarHelper.getAvatarResource(avatarId));
                         }
                     });
         }
+    }
+
+    private void showAvatarSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_avatar_selection, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        dialogView.findViewById(R.id.avatar1).setOnClickListener(v -> updateAvatar(AvatarHelper.AVATAR_1, dialog));
+        dialogView.findViewById(R.id.avatar2).setOnClickListener(v -> updateAvatar(AvatarHelper.AVATAR_2, dialog));
+        dialogView.findViewById(R.id.avatar3).setOnClickListener(v -> updateAvatar(AvatarHelper.AVATAR_3, dialog));
+        dialogView.findViewById(R.id.avatar4).setOnClickListener(v -> updateAvatar(AvatarHelper.AVATAR_4, dialog));
+
+        dialog.show();
+    }
+
+    private void updateAvatar(String avatarId, AlertDialog dialog) {
+        String userId = mAuth.getCurrentUser().getUid();
+        db.collection("users").document(userId).update("avatarId", avatarId)
+                .addOnSuccessListener(aVoid -> {
+                    imageViewProfilePic.setImageResource(AvatarHelper.getAvatarResource(avatarId));
+                    dialog.dismiss();
+                    Toast.makeText(this, "Avatar updated!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to update avatar", Toast.LENGTH_SHORT).show());
     }
 
     private void showChangePasswordDialog() {
