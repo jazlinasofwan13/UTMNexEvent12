@@ -16,6 +16,20 @@
         android:background="@drawable/organizer_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- BACK BUTTON -->
+    <ImageButton
+        android:id="@+id/buttonOrgProfileBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewOrgProfilePic"
         android:layout_width="120dp"

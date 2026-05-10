@@ -62,6 +62,9 @@ public class SignupActivity extends AppCompatActivity {
         checkboxParticipant = findViewById(R.id.checkboxParticipant);
         checkboxOrganizer = findViewById(R.id.checkboxOrganizer);
         buttonRegister = findViewById(R.id.buttonRegister);
+        View buttonBack = findViewById(R.id.buttonBack);
+
+        buttonBack.setOnClickListener(v -> finish());
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override

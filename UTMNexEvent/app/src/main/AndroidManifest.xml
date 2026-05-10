@@ -37,6 +37,9 @@
             android:name=".AdminHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".AdminProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

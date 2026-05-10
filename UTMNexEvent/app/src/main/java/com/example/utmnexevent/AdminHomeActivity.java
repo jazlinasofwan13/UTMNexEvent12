@@ -29,6 +29,16 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
         Button buttonLogout = findViewById(R.id.buttonAdminLogout);
+        View imageViewProfile = findViewById(R.id.imageViewAdminProfile);
+
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHomeActivity.this, AdminProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

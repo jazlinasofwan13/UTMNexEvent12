@@ -53,7 +53,8 @@ public class OrganizerProfileActivity extends AppCompatActivity {
         textViewDisplayName = findViewById(R.id.textViewOrgDisplayName);
         textViewDisplayEmail = findViewById(R.id.textViewOrgDisplayEmail);
         Button buttonChangePassword = findViewById(R.id.buttonOrgChangePassword);
-        Button buttonBack = findViewById(R.id.buttonOrgBack);
+        Button buttonBackHome = findViewById(R.id.buttonOrgBack);
+        View buttonBack = findViewById(R.id.buttonOrgProfileBack);
 
         // Set default profile picture
         imageViewProfilePic.setImageResource(android.R.drawable.ic_menu_gallery);
@@ -62,6 +63,7 @@ public class OrganizerProfileActivity extends AppCompatActivity {
 
         buttonChangePassword.setOnClickListener(v -> showChangePasswordDialog());
 
+        buttonBackHome.setOnClickListener(v -> finish());
         buttonBack.setOnClickListener(v -> finish());
     }
 

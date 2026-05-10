@@ -2,23 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/participant_profile_main"
+    android:id="@+id/admin_profile_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F9FA"
-    tools:context=".ParticipantProfileActivity">
+    tools:context=".AdminProfileActivity">
 
     <!-- Header Section -->
     <View
-        android:id="@+id/viewHeader"
+        android:id="@+id/viewHeaderBackground"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@drawable/participants_bg_header"
+        android:background="@drawable/admin_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- BACK BUTTON -->
     <ImageButton
-        android:id="@+id/buttonProfileBack"
+        android:id="@+id/buttonAdminProfileBack"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -31,7 +31,7 @@
         app:tint="@color/white" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageViewProfilePic"
+        android:id="@+id/imageViewAdminProfilePic"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="50dp"
@@ -48,17 +48,17 @@
         app:strokeWidth="4dp" />
 
     <TextView
-        android:id="@+id/textViewProfileTitle"
+        android:id="@+id/textViewAdminProfileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Participant Profile"
+        android:text="Admin Profile"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewProfilePic" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewAdminProfilePic" />
 
     <!-- Profile Actions Card -->
     <com.google.android.material.card.MaterialCardView
@@ -69,7 +69,7 @@
         android:layout_marginTop="20dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="12dp"
-        app:layout_constraintTop_toBottomOf="@id/viewHeader">
+        app:layout_constraintTop_toBottomOf="@id/viewHeaderBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,20 +79,20 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/textViewDisplayName"
+                android:id="@+id/textViewAdminDisplayName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Full Name"
+                android:text="Admin Name"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/textViewDisplayEmail"
+                android:id="@+id/textViewAdminDisplayEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="email@example.com"
+                android:text="admin@example.com"
                 android:textSize="16sp"
                 android:textColor="#757575" />
 
@@ -103,20 +103,20 @@
                 android:background="#EEEEEE" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonChangePassword"
+                android:id="@+id/buttonAdminChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Change Password"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
+                android:backgroundTint="#000000"
                 app:cornerRadius="12dp"
                 app:icon="@android:drawable/ic_lock_idle_lock"
                 app:iconGravity="textStart" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonBack"
+                android:id="@+id/buttonAdminBack"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -124,8 +124,8 @@
                 android:text="Back to Home"
                 android:textAllCaps="false"
                 android:textSize="16sp"
-                android:textColor="#D32F2F"
-                app:strokeColor="#D32F2F"
+                android:textColor="#000000"
+                app:strokeColor="#000000"
                 app:cornerRadius="12dp" />
 
         </LinearLayout>

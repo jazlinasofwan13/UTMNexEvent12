@@ -26,11 +26,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ParticipantProfileActivity extends AppCompatActivity {
+public class AdminProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    
+
     private ImageView imageViewProfilePic;
     private TextView textViewDisplayName, textViewDisplayEmail;
 
@@ -38,23 +38,23 @@ public class ParticipantProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_participant_profile);
+        setContentView(R.layout.activity_admin_profile);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.participant_profile_main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.admin_profile_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        imageViewProfilePic = findViewById(R.id.imageViewProfilePic);
-        textViewDisplayName = findViewById(R.id.textViewDisplayName);
-        textViewDisplayEmail = findViewById(R.id.textViewDisplayEmail);
-        Button buttonChangePassword = findViewById(R.id.buttonChangePassword);
-        Button buttonBackHome = findViewById(R.id.buttonBack);
-        View buttonBack = findViewById(R.id.buttonProfileBack);
+        imageViewProfilePic = findViewById(R.id.imageViewAdminProfilePic);
+        textViewDisplayName = findViewById(R.id.textViewAdminDisplayName);
+        textViewDisplayEmail = findViewById(R.id.textViewAdminDisplayEmail);
+        Button buttonChangePassword = findViewById(R.id.buttonAdminChangePassword);
+        Button buttonBackHome = findViewById(R.id.buttonAdminBack);
+        View buttonBack = findViewById(R.id.buttonAdminProfileBack);
 
         // Set default profile picture
         imageViewProfilePic.setImageResource(android.R.drawable.ic_menu_gallery);
@@ -109,17 +109,17 @@ public class ParticipantProfileActivity extends AppCompatActivity {
                 String confirmNewPassword = editTextConfirmNewPassword.getText().toString().trim();
 
                 if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmNewPassword.isEmpty()) {
-                    Toast.makeText(ParticipantProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!newPassword.equals(confirmNewPassword)) {
-                    Toast.makeText(ParticipantProfileActivity.this, "New passwords do not match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminProfileActivity.this, "New passwords do not match", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (newPassword.length() < 6) {
-                    Toast.makeText(ParticipantProfileActivity.this, "New password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminProfileActivity.this, "New password must be at least 6 characters", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -141,15 +141,15 @@ public class ParticipantProfileActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ParticipantProfileActivity.this, "Password updated successfully!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AdminProfileActivity.this, "Password updated successfully!", Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
                                 } else {
-                                    Toast.makeText(ParticipantProfileActivity.this, "Failed to update password: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AdminProfileActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
                     } else {
-                        Toast.makeText(ParticipantProfileActivity.this, "Authentication failed. Check your current password.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminProfileActivity.this, "Authentication failed. Check current password.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
