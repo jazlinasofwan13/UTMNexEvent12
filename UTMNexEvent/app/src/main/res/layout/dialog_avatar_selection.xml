@@ -26,36 +26,36 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="12dp"
-            android:background="@android:drawable/btn_default"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_camera" />
+            android:contentDescription="Avatar 1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_1" />
 
         <ImageView
             android:id="@+id/avatar2"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="12dp"
-            android:background="@android:drawable/btn_default"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_gallery" />
+            android:contentDescription="Avatar 2"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_2" />
 
         <ImageView
             android:id="@+id/avatar3"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="12dp"
-            android:background="@android:drawable/btn_default"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_slideshow" />
+            android:contentDescription="Avatar 3"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_3" />
 
         <ImageView
             android:id="@+id/avatar4"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="12dp"
-            android:background="@android:drawable/btn_default"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_compass" />
+            android:contentDescription="Avatar 4"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_4" />
 
     </GridLayout>
 
