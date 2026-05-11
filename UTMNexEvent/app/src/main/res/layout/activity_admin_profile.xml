@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Admin Profile"
+        android:text="Profile"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -99,9 +99,9 @@
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Edit Name"
                     android:src="@android:drawable/ic_menu_edit"
-                    app:tint="#757575"
-                    android:contentDescription="Edit Name" />
+                    app:tint="#000000" />
             </LinearLayout>
 
             <TextView
@@ -129,7 +129,6 @@
                 android:textStyle="bold"
                 android:backgroundTint="#000000"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_lock_idle_lock"
                 app:iconGravity="textStart" />
 
             <com.google.android.material.button.MaterialButton

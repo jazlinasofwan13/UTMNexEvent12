@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Participant Profile"
+        android:text="Profile"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -129,7 +129,7 @@
                 android:textStyle="bold"
                 android:backgroundTint="#D32F2F"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_lock_idle_lock"
+
                 app:iconGravity="textStart" />
 
             <com.google.android.material.button.MaterialButton
