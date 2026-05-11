@@ -1,11 +1,10 @@
 package com.example.utmnexevent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +33,7 @@ public class OrganizerProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private ImageView imageViewProfilePic;
-    private TextView textViewDisplayName, textViewDisplayEmail;
+    private TextView textViewDisplayName, textViewDisplayEmail, textViewDisplayPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +53,29 @@ public class OrganizerProfileActivity extends AppCompatActivity {
         imageViewProfilePic = findViewById(R.id.imageViewOrgProfilePic);
         textViewDisplayName = findViewById(R.id.textViewOrgDisplayName);
         textViewDisplayEmail = findViewById(R.id.textViewOrgDisplayEmail);
+        textViewDisplayPhone = findViewById(R.id.textViewOrgDisplayPhone);
         Button buttonChangePassword = findViewById(R.id.buttonOrgChangePassword);
-        Button buttonBackHome = findViewById(R.id.buttonOrgBack);
+        Button buttonEditInfo = findViewById(R.id.buttonEditInfo);
         View buttonBack = findViewById(R.id.buttonOrgProfileBack);
-        ImageButton buttonEditName = findViewById(R.id.buttonEditOrgName);
 
         loadUserData();
 
         imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
-        buttonEditName.setOnClickListener(v -> showEditNameDialog());
+        buttonEditInfo.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
 
         buttonChangePassword.setOnClickListener(v -> showChangePasswordDialog());
 
-        buttonBackHome.setOnClickListener(v -> finish());
         buttonBack.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserData(); // Refresh data
     }
 
     private void loadUserData() {
@@ -81,10 +88,12 @@ public class OrganizerProfileActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             String fullName = document.getString("fullName");
                             String email = document.getString("email");
+                            String phone = document.getString("phone");
                             String avatarId = document.getString("avatarId");
 
                             textViewDisplayName.setText(fullName);
                             textViewDisplayEmail.setText(email);
+                            textViewDisplayPhone.setText(phone != null ? phone : "No phone number");
                             
                             imageViewProfilePic.setImageResource(AvatarHelper.getAvatarResource(avatarId));
                         }
@@ -105,37 +114,6 @@ public class OrganizerProfileActivity extends AppCompatActivity {
         dialogView.findViewById(R.id.avatar4).setOnClickListener(v -> updateAvatar(AvatarHelper.AVATAR_4, dialog));
 
         dialog.show();
-    }
-
-    private void showEditNameDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit Name");
-
-        final EditText input = new EditText(this);
-        input.setText(textViewDisplayName.getText().toString());
-        builder.setView(input);
-
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            String newName = input.getText().toString().trim();
-            if (!newName.isEmpty()) {
-                updateName(newName);
-            } else {
-                Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
-        builder.show();
-    }
-
-    private void updateName(String newName) {
-        String userId = mAuth.getCurrentUser().getUid();
-        db.collection("users").document(userId).update("fullName", newName)
-                .addOnSuccessListener(aVoid -> {
-                    textViewDisplayName.setText(newName);
-                    Toast.makeText(this, "Name updated!", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> Toast.makeText(this, "Failed to update name", Toast.LENGTH_SHORT).show());
     }
 
     private void updateAvatar(String avatarId, AlertDialog dialog) {

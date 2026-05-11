@@ -25,10 +25,9 @@
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Back"
-        android:src="@android:drawable/ic_menu_revert"
+        android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CIRCULAR LOGO -->
     <com.google.android.material.imageview.ShapeableImageView

@@ -25,10 +25,9 @@
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Back"
-        android:src="@android:drawable/ic_menu_revert"
+        android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewOrgProfilePic"
@@ -78,31 +77,14 @@
             android:padding="32dp"
             android:gravity="center_horizontal">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textViewOrgDisplayName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/textViewOrgDisplayName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Organizer Name"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black" />
-
-                <ImageButton
-                    android:id="@+id/buttonEditOrgName"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_edit"
-                    app:tint="#757575"
-                    android:contentDescription="Edit Name" />
-            </LinearLayout>
+                android:text="Organizer Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textViewOrgDisplayEmail"
@@ -113,6 +95,15 @@
                 android:textSize="16sp"
                 android:textColor="#757575" />
 
+            <TextView
+                android:id="@+id/textViewOrgDisplayPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Phone Number"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -120,24 +111,23 @@
                 android:background="#EEEEEE" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonOrgChangePassword"
+                android:id="@+id/buttonEditInfo"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Change Password"
+                android:text="Edit Personal Info"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:backgroundTint="@color/organizer_blue_primary"
-                app:cornerRadius="12dp"
-                app:iconGravity="textStart" />
+                app:cornerRadius="12dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonOrgBack"
+                android:id="@+id/buttonOrgChangePassword"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="16dp"
-                android:text="Back to Home"
+                android:text="Change Password"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@color/organizer_blue_primary"

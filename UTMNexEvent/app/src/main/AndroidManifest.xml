@@ -25,6 +25,9 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrganizerSignupActivity"
             android:exported="false" />
         <activity
@@ -38,6 +41,9 @@
             android:exported="false" />
         <activity
             android:name=".AdminProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
