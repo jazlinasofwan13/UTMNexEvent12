@@ -51,6 +51,7 @@ public class OrganizerProfileActivity extends AppCompatActivity {
         });
 
         imageViewProfilePic = findViewById(R.id.imageViewOrgProfilePic);
+        View buttonChangeProfilePic = findViewById(R.id.buttonChangeOrgProfilePic);
         textViewDisplayName = findViewById(R.id.textViewOrgDisplayName);
         textViewDisplayEmail = findViewById(R.id.textViewOrgDisplayEmail);
         textViewDisplayPhone = findViewById(R.id.textViewOrgDisplayPhone);
@@ -60,6 +61,7 @@ public class OrganizerProfileActivity extends AppCompatActivity {
 
         loadUserData();
 
+        buttonChangeProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
         imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
         buttonEditInfo.setOnClickListener(v -> {

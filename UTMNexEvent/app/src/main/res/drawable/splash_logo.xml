@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Increased padding to 38dp to ensure the slogan at the bottom of the logo is within the circular safe zone -->
+    <item
+        android:drawable="@drawable/ic_logo"
+        android:top="38dp"
+        android:bottom="38dp"
+        android:left="38dp"
+        android:right="38dp" />
+</layer-list>

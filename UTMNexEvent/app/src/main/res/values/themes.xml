@@ -8,8 +8,9 @@
     <style name="Theme.UTMNexEvent" parent="Base.Theme.UTMNexEvent" />
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
-        <item name="windowSplashScreenBackground">#D32F2F</item> <!-- UTM Red -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenIconBackgroundColor">#FFFFFF</item>
         <item name="postSplashScreenTheme">@style/Theme.UTMNexEvent</item>
     </style>
 

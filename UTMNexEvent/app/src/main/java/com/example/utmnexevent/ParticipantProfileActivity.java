@@ -51,6 +51,7 @@ public class ParticipantProfileActivity extends AppCompatActivity {
         });
 
         imageViewProfilePic = findViewById(R.id.imageViewProfilePic);
+        View buttonChangeProfilePic = findViewById(R.id.buttonChangeProfilePic);
         textViewDisplayName = findViewById(R.id.textViewDisplayName);
         textViewDisplayEmail = findViewById(R.id.textViewDisplayEmail);
         textViewDisplayPhone = findViewById(R.id.textViewDisplayPhone);
@@ -60,6 +61,7 @@ public class ParticipantProfileActivity extends AppCompatActivity {
 
         loadUserData();
 
+        buttonChangeProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
         imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
         buttonEditInfo.setOnClickListener(v -> {

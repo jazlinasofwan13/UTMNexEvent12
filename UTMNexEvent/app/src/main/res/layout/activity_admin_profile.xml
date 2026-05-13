@@ -46,6 +46,32 @@
         app:strokeColor="#F1F3F4"
         app:strokeWidth="4dp" />
 
+    <!-- Button to change profile picture -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/buttonChangeAdminProfilePic"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="-4dp"
+        android:layout_marginBottom="-4dp"
+        app:cardBackgroundColor="#000000"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="10dp"
+        app:strokeColor="#FFFFFF"
+        app:strokeWidth="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewAdminProfilePic"
+        app:layout_constraintEnd_toEndOf="@id/imageViewAdminProfilePic"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_camera"
+            android:contentDescription="Change Profile Picture"
+            app:tint="#FFFFFF" />
+    </com.google.android.material.card.MaterialCardView>
+
     <TextView
         android:id="@+id/textViewAdminProfileTitle"
         android:layout_width="wrap_content"
