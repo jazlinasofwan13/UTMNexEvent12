@@ -8,22 +8,42 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class OrganizerHomeActivity extends AppCompatActivity {
+
+    private TextView textViewOrgHomeTitle;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private ListenerRegistration userListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_organizer_home);
+        
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        textViewOrgHomeTitle = findViewById(R.id.textViewOrgHomeTitle);
+        
+        loadUserData();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.organizer_home_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -60,6 +80,30 @@ public class OrganizerHomeActivity extends AppCompatActivity {
             }
         });
         popup.show();
+    }
+
+    private void loadUserData() {
+        if (mAuth.getCurrentUser() != null) {
+            String userId = mAuth.getCurrentUser().getUid();
+            userListener = db.collection("users").document(userId)
+                    .addSnapshotListener((snapshot, e) -> {
+                        if (e != null) return;
+                        if (snapshot != null && snapshot.exists()) {
+                            String fullName = snapshot.getString("fullName");
+                            if (fullName != null && !fullName.isEmpty()) {
+                                textViewOrgHomeTitle.setText("Welcome, " + fullName);
+                            }
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (userListener != null) {
+            userListener.remove();
+        }
     }
 
     private void logout() {

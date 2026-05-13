@@ -19,12 +19,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="55dp" />
 
+    <!-- MENU BUTTON (3 DOTS) -->
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="#FFFFFF"
         android:contentDescription="@string/app_logo"
         android:elevation="8dp"
@@ -36,7 +38,6 @@
         app:strokeColor="#E0E0E0"
         app:strokeWidth="1dp" />
 
-    <!-- MENU BUTTON (3 DOTS) -->
     <ImageButton
         android:id="@+id/buttonMenu"
         android:layout_width="48dp"
@@ -49,13 +50,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- PROFILE ICON -->
+
     <TextView
         android:id="@+id/textViewHomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Welcome to UTM NexEvent"
+        android:layout_marginTop="4dp"
+        android:text="Welcome!"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -63,13 +66,15 @@
         app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="555dp"
         android:background="@drawable/bg_admin_content"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewHeader">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,17 +82,17 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <!-- SAMPLE EVENT CARD 1 -->
             <TextView
                 android:id="@+id/textViewUpcomingEvents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="@string/upcoming_events"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginBottom="16dp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <!-- SAMPLE EVENT CARD 1 -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEvent1"
                 android:layout_width="match_parent"
@@ -97,11 +102,23 @@
                 android:focusable="true"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                app:rippleColor="#1AD32F2F"/>
+                app:rippleColor="#1AD32F2F" />
 
             <!-- SAMPLE EVENT CARD 2 -->
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Smart Event Management"
+        android:textColor="@color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHomeTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

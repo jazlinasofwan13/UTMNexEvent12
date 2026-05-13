@@ -9,20 +9,22 @@
     tools:context=".OrganizerHomeActivity">
 
     <!-- FANCY HEADER -->
+
+    <!-- CIRCULAR LOGO -->
     <View
         android:id="@+id/viewHeaderBackground"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:background="@drawable/organizer_bg_header"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-105dp" />
 
-    <!-- CIRCULAR LOGO -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="#FFFFFF"
         android:contentDescription="@string/app_logo"
         android:elevation="8dp"
@@ -47,27 +49,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- PROFILE ICON -->
+
     <TextView
         android:id="@+id/textViewOrgHomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
-        android:text="Welcome Organizer"
+        android:text="Welcome!"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/viewHeaderBackground"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="550dp"
         android:background="@drawable/bg_admin_content"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewOrgHomeTitle">
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,5 +81,17 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="UTM NexEvent Dashboard"
+        android:textColor="@color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOrgHomeTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

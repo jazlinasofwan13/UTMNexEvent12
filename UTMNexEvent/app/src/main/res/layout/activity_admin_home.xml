@@ -17,6 +17,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CIRCULAR LOGO -->
+
+    <!-- MENU BUTTON (3 DOTS) -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="80dp"
@@ -34,7 +36,6 @@
         app:strokeColor="#E0E0E0"
         app:strokeWidth="1dp" />
 
-    <!-- MENU BUTTON (3 DOTS) -->
     <ImageButton
         android:id="@+id/buttonMenu"
         android:layout_width="48dp"
@@ -47,46 +48,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewAdminHomeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:shadowColor="#80000000"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="4"
-        android:text="Welcome Admin"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
-
-    <TextView
-        android:id="@+id/textViewAdminHomeSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/admin_dashboard_subtitle"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewAdminHomeTitle" />
+    <!-- PROFILE ICON -->
 
     <!-- GLASSMORPHISM STATS CARDS -->
 
     <!-- CONTENT AREA WITH PREMIUM CURVE -->
+
+    <TextView
+        android:id="@+id/textViewAdminHomeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:shadowColor="#80000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:text="Welcome!"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
+
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="550dp"
         android:background="@drawable/bg_admin_content"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewAdminHomeSubtitle">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,5 +92,15 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="UTM NexEvent Dashboard"
+        android:textColor="@color/background_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAdminHomeTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

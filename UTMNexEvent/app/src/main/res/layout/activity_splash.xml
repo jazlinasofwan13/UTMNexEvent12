@@ -21,11 +21,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="REGISTER . SCAN . JOIN SMART"
+        android:letterSpacing="0.1"
+        android:text="SMART EVENT MANAGEMENT"
         android:textColor="#D32F2F"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:letterSpacing="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewSplashLogo" />
