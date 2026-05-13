@@ -3,7 +3,7 @@ package com.example.utmnexevent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,8 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private TextInputEditText editTextConfirmPassword;
-    private CheckBox checkboxParticipant;
-    private CheckBox checkboxOrganizer;
+    private RadioGroup radioGroupRole;
     private Button buttonRegister;
 
     private FirebaseAuth mAuth;
@@ -59,8 +58,7 @@ public class SignupActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmailSignup);
         editTextPassword = findViewById(R.id.editTextPasswordSignup);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
-        checkboxParticipant = findViewById(R.id.checkboxParticipant);
-        checkboxOrganizer = findViewById(R.id.checkboxOrganizer);
+        radioGroupRole = findViewById(R.id.radioGroupRoleSignup);
         buttonRegister = findViewById(R.id.buttonRegister);
         View buttonBack = findViewById(R.id.buttonBack);
 
@@ -96,11 +94,15 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         List<String> selectedRoles = new ArrayList<>();
-        if (checkboxParticipant.isChecked()) selectedRoles.add("participant");
-        if (checkboxOrganizer.isChecked()) selectedRoles.add("organizer");
+        int selectedId = radioGroupRole.getCheckedRadioButtonId();
+        if (selectedId == R.id.radioParticipantSignup) {
+            selectedRoles.add("participant");
+        } else if (selectedId == R.id.radioOrganizerSignup) {
+            selectedRoles.add("organizer");
+        }
 
         if (selectedRoles.isEmpty()) {
-            Toast.makeText(this, "Please select at least one role", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
             return;
         }
 
