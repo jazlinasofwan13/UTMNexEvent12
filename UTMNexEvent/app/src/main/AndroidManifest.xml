@@ -53,6 +53,18 @@
         <activity
             android:name=".ParticipantProfileActivity"
             android:exported="false" />
+        <activity
+            android:name=".EventListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewQRActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageEventsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

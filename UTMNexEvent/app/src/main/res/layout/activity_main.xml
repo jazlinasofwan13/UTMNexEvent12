@@ -82,6 +82,54 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <!-- MAIN NAVIGATION BUTTONS -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonViewEventList"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="View Event List"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#D32F2F"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_agenda"
+                app:iconPadding="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonViewQR"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="12dp"
+                android:text="View QR"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#D32F2F"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_camera"
+                app:iconPadding="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonViewHistory"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="12dp"
+                android:text="View History"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#D32F2F"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_recent_history"
+                app:iconPadding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="24dp"
+                android:background="#EEEEEE" />
+
             <!-- SAMPLE EVENT CARD 1 -->
             <TextView
                 android:id="@+id/textViewUpcomingEvents"

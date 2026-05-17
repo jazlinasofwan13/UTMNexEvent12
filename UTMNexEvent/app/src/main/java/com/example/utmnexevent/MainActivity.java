@@ -51,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Initialize and set click listeners for the new buttons
+        findViewById(R.id.buttonViewEventList).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, EventListActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.buttonViewQR).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ViewQRActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.buttonViewHistory).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ViewHistoryActivity.class);
+            startActivity(intent);
+        });
+
         ImageButton buttonMenu = findViewById(R.id.buttonMenu);
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override

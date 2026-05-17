@@ -51,6 +51,11 @@ public class OrganizerHomeActivity extends AppCompatActivity {
             return insets;
         });
 
+        findViewById(R.id.buttonManageEvents).setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerHomeActivity.this, ManageEventsActivity.class);
+            startActivity(intent);
+        });
+
         ImageButton buttonMenu = findViewById(R.id.buttonMenu);
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override

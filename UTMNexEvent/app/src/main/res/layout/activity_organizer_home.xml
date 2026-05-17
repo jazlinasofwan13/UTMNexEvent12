@@ -79,6 +79,20 @@
             android:orientation="vertical"
             android:padding="20dp">
 
+            <!-- MAIN NAVIGATION BUTTONS -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonManageEvents"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Manage Events"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/organizer_blue_primary"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconPadding="12dp" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
