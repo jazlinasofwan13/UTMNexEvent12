@@ -75,7 +75,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="295dp"
+            android:layout_height="311dp"
             android:orientation="vertical"
             android:padding="32dp">
 
@@ -103,8 +103,18 @@
                     android:id="@+id/editTextEditPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:maxLength="11" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone Number must at least 10 numbers and at most 11 numbers"
+                android:textColor="@color/admin_red_dark"
+                android:textSize="10sp"
+                android:textStyle="italic" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSaveInfo"
@@ -117,6 +127,18 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

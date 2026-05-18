@@ -56,6 +56,8 @@ public class EditProfileActivity extends AppCompatActivity {
             
             if (newName.isEmpty()) {
                 Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+            } else if (newPhone.length() < 10 || newPhone.length() > 11) {
+                Toast.makeText(this, "Phone number must be between 10 and 11 digits", Toast.LENGTH_SHORT).show();
             } else {
                 updateProfile(newName, newPhone);
             }
