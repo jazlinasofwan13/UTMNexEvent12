@@ -93,6 +93,20 @@
                 app:icon="@android:drawable/ic_menu_edit"
                 app:iconPadding="12dp" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonAddEvent"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="12dp"
+                android:text="Add Event"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/organizer_blue_primary"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_add"
+                app:iconPadding="12dp" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
