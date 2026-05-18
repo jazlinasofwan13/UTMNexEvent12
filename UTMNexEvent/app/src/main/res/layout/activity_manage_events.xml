@@ -12,7 +12,7 @@
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/organizer_blue_primary"
+        android:background="@drawable/organizer_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
