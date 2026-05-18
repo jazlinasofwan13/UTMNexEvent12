@@ -65,7 +65,7 @@ public class AdminProfileActivity extends AppCompatActivity {
         imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
         buttonEditInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminProfileActivity.this, EditProfileActivity.class);
+            Intent intent = new Intent(AdminProfileActivity.this, AdminEditProfileActivity.class);
             startActivity(intent);
         });
 

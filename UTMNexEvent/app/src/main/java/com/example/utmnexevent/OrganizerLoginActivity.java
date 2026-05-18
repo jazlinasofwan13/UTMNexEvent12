@@ -54,22 +54,8 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = editTextEmail.getText().toString().trim();
-                if (email.isEmpty()) {
-                    Toast.makeText(OrganizerLoginActivity.this, "Please enter your email address first", Toast.LENGTH_SHORT).show();
-                } else {
-                    mAuth.sendPasswordResetEmail(email)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(OrganizerLoginActivity.this, "Password reset email sent to " + email, Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(OrganizerLoginActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
+                Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
 

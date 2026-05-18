@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -47,6 +48,15 @@ public class AdminLoginActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextAdminEmail);
         editTextPassword = findViewById(R.id.editTextAdminPassword);
         buttonLogin = findViewById(R.id.buttonAdminLoginSubmit);
+        TextView textViewForgotPassword = findViewById(R.id.textViewAdminForgotPassword);
+
+        textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminLoginActivity.this, AdminForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

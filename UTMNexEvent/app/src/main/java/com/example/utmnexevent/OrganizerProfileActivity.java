@@ -65,7 +65,7 @@ public class OrganizerProfileActivity extends AppCompatActivity {
         imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
         buttonEditInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(OrganizerProfileActivity.this, EditProfileActivity.class);
+            Intent intent = new Intent(OrganizerProfileActivity.this, OrganizerEditProfileActivity.class);
             startActivity(intent);
         });
 

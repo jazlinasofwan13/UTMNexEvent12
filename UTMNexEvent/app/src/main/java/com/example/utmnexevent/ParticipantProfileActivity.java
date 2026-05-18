@@ -65,7 +65,7 @@ public class ParticipantProfileActivity extends AppCompatActivity {
         imageViewProfilePic.setOnClickListener(v -> showAvatarSelectionDialog());
 
         buttonEditInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(ParticipantProfileActivity.this, EditProfileActivity.class);
+            Intent intent = new Intent(ParticipantProfileActivity.this, ParticipantEditProfileActivity.class);
             startActivity(intent);
         });
 
@@ -77,7 +77,7 @@ public class ParticipantProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadUserData(); // Refresh data when coming back from EditProfileActivity
+        loadUserData(); // Refresh data when coming back from ParticipantEditProfileActivity
     }
 
     private void loadUserData() {

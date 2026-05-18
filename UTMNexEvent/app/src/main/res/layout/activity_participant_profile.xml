@@ -140,11 +140,11 @@
                 android:id="@+id/buttonEditInfo"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Edit Personal Info"
+                android:backgroundTint="#D32F2F"
+                android:text="Edit Profile"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
                 app:cornerRadius="12dp" />
 
             <com.google.android.material.button.MaterialButton

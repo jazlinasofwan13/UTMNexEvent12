@@ -27,9 +27,6 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".OrganizerSignupActivity"
             android:exported="false" />
         <activity
@@ -39,19 +36,34 @@
             android:name=".OrganizerProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".OrganizerEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrganizerForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminHomeActivity"
             android:exported="false" />
         <activity
             android:name=".AdminProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".AdminEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ParticipantProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParticipantEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParticipantForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".EventListActivity"

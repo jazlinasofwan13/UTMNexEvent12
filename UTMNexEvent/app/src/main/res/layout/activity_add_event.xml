@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="Add Event"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/viewHeader"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="Event Date"
-                    app:startIconDrawable="@android:drawable/ic_menu_my_calendar">
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEventDate"
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="Event Time"
-                    app:startIconDrawable="@android:drawable/ic_menu_recent_history">
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEventTime"

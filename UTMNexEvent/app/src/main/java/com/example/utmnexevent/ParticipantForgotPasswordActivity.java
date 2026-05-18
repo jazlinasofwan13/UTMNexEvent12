@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ParticipantForgotPasswordActivity extends AppCompatActivity {
 
     private TextInputEditText editTextEmail;
     private Button buttonResetPassword;
@@ -29,7 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_forgot_password);
+        setContentView(R.layout.activity_participant_forgot_password);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -51,7 +51,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
 
                 if (email.isEmpty()) {
-                    Toast.makeText(ForgotPasswordActivity.this, "Please enter your email address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParticipantForgotPasswordActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -62,10 +62,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ForgotPasswordActivity.this, "Password reset email sent to " + email, Toast.LENGTH_LONG).show();
-                                    finish(); // Go back to login after success
+                                    Toast.makeText(ParticipantForgotPasswordActivity.this, "Reset email sent to " + email, Toast.LENGTH_LONG).show();
+                                    finish();
                                 } else {
-                                    Toast.makeText(ForgotPasswordActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ParticipantForgotPasswordActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     buttonResetPassword.setEnabled(true);
                                 }
                             }
