@@ -157,6 +157,16 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             if (hasAccess) {
+                                // Check approval for organizers
+                                if ("organizer".equals(selectedRole)) {
+                                    Boolean isApproved = document.getBoolean("isApproved");
+                                    if (isApproved == null || !isApproved) {
+                                        mAuth.signOut();
+                                        Toast.makeText(LoginActivity.this, "Your account is pending admin approval.", Toast.LENGTH_LONG).show();
+                                        buttonLogin.setEnabled(true);
+                                        return;
+                                    }
+                                }
                                 navigateToHome(selectedRole);
                             } else {
                                 mAuth.signOut();

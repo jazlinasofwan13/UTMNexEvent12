@@ -80,6 +80,9 @@
         <activity
             android:name=".AddEventActivity"
             android:exported="false" />
+        <activity
+            android:name=".ApproveOrganizersActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

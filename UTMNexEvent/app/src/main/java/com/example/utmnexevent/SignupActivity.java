@@ -133,6 +133,13 @@ public class SignupActivity extends AppCompatActivity {
         user.put("fullName", fullName);
         user.put("email", email);
         user.put("role", roles);
+        
+        // Default approval status
+        if (roles.contains("organizer")) {
+            user.put("isApproved", false);
+        } else {
+            user.put("isApproved", true);
+        }
 
         db.collection("users").document(userId)
                 .set(user)

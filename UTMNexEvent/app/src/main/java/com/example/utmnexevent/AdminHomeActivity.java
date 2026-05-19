@@ -51,6 +51,11 @@ public class AdminHomeActivity extends AppCompatActivity {
             return insets;
         });
 
+        findViewById(R.id.buttonApproveOrganizers).setOnClickListener(v -> {
+            Intent intent = new Intent(AdminHomeActivity.this, ApproveOrganizersActivity.class);
+            startActivity(intent);
+        });
+
         ImageButton buttonMenu = findViewById(R.id.buttonMenu);
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
