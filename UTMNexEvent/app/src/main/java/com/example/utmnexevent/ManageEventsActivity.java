@@ -3,6 +3,7 @@ package com.example.utmnexevent;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,11 @@ public class ManageEventsActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.buttonBack).setOnClickListener(v -> finish());
+
+        findViewById(R.id.buttonAddEventInManage).setOnClickListener(v -> {
+            Intent intent = new Intent(ManageEventsActivity.this, AddEventActivity.class);
+            startActivity(intent);
+        });
 
         loadMyEvents();
     }
