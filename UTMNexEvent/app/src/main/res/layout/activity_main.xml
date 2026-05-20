@@ -83,52 +83,72 @@
             android:padding="24dp">
 
             <!-- MAIN NAVIGATION BUTTONS -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonViewEventList"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="View Event List"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
-                app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_agenda"
-                app:iconPadding="12dp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonViewQR"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="12dp"
-                android:text="View QR"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
-                app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_camera"
-                app:iconPadding="12dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonViewHistory"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="12dp"
-                android:text="View History"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:backgroundTint="#D32F2F"
-                app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_recent_history"
-                app:iconPadding="12dp" />
+                <!-- QR SECTION -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginEnd="24dp">
+
+                    <ImageButton
+                        android:id="@+id/buttonViewQR"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/ic_qr_nav" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Event QR Ticket"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- HISTORY SECTION -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/buttonViewHistory"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/ic_history_nav" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="History Event"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="24dp"
-                android:background="#EEEEEE" />
+                android:background="#C5B2B2" />
 
             <!-- UPCOMING EVENTS SECTION -->
             <TextView

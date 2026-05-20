@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         eventList = new ArrayList<>();
         adapter = new EventAdapter(eventList);
         recyclerViewUpcomingEvents.setAdapter(adapter);
-        
+
         loadUserData();
         loadUpcomingEvents();
 
@@ -78,10 +78,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Initialize and set click listeners for the new buttons
-        findViewById(R.id.buttonViewEventList).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, EventListActivity.class);
-            startActivity(intent);
-        });
+
 
         findViewById(R.id.buttonViewQR).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ViewQRActivity.class);
@@ -162,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot doc : regTask.getResult()) {
                             joinedEventIds.add(doc.getString("eventId"));
                         }
-                        
+
                         // Then, load the active events
                         fetchActiveEvents();
                     }
@@ -181,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                             eventData.put("id", document.getId());
                             eventList.add(eventData);
                         }
-                        
+
                         if (eventList.isEmpty()) {
                             textViewNoEvents.setVisibility(View.VISIBLE);
                             recyclerViewUpcomingEvents.setVisibility(View.GONE);
@@ -214,12 +211,12 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
             Map<String, Object> event = events.get(position);
             String eventId = (String) event.get("id");
-            
+
             holder.textViewName.setText(String.valueOf(event.get("name")));
             holder.textViewDate.setText(String.valueOf(event.get("date")));
             holder.textViewTime.setText(String.valueOf(event.get("time")));
             holder.textViewDescription.setText(String.valueOf(event.get("description")));
-            
+
             long joined = 0;
             Object joinedObj = event.get("participantsJoined");
             if (joinedObj instanceof Long) {
@@ -227,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (joinedObj instanceof Integer) {
                 joined = (Integer) joinedObj;
             }
-            
+
             long limit = 0;
             Object limitObj = event.get("participantLimit");
             if (limitObj instanceof Long) {
@@ -235,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (limitObj instanceof Integer) {
                 limit = (Integer) limitObj;
             }
-            
+
             holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
 
             // Check if already joined
@@ -245,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 holder.buttonJoin.setVisibility(View.VISIBLE);
                 holder.textViewJoined.setVisibility(View.GONE);
-                
+
                 long finalJoined = joined;
                 long finalLimit = limit;
                 holder.buttonJoin.setOnClickListener(v -> {
@@ -297,13 +294,13 @@ public class MainActivity extends AppCompatActivity {
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(this, "Joined successfully!", Toast.LENGTH_SHORT).show();
                                 joinedEventIds.add(eventId);
-                                
+
                                 // Update local data to reflect new count
                                 long currentJoined = 0;
                                 Object joinedObj = event.get("participantsJoined");
                                 if (joinedObj instanceof Long) currentJoined = (Long) joinedObj;
                                 else if (joinedObj instanceof Integer) currentJoined = (Integer) joinedObj;
-                                
+
                                 event.put("participantsJoined", currentJoined + 1);
                                 adapter.notifyItemChanged(position);
                             });
@@ -315,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         prefs.edit().remove("last_role").apply();
-        
+
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

@@ -10,7 +10,7 @@
 
     <View
         android:id="@+id/viewHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="100dp"
         android:background="@drawable/participants_bg_header"
         app:layout_constraintTop_toTopOf="parent" />
