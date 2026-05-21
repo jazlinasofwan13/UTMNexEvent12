@@ -132,7 +132,7 @@ public class AdminProfileActivity extends AppCompatActivity {
     private void showChangePasswordDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_change_password, null);
+        View dialogView = inflater.inflate(R.layout.dialog_admin_change_password, null);
         builder.setView(dialogView);
 
         TextInputEditText editTextCurrentPassword = dialogView.findViewById(R.id.editTextCurrentPassword);

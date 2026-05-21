@@ -95,9 +95,9 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Participants"
+                android:text="View Participants"
                 android:textColor="#000000"
-                app:icon="@android:drawable/ic_menu_view"
+                android:textSize="10sp"
                 app:iconTint="#000000" />
 
             <com.google.android.material.button.MaterialButton
@@ -106,8 +106,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit"
-                android:textColor="#000000"
-                app:icon="@android:drawable/ic_menu_edit"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="10sp"
                 app:iconTint="#000000" />
 
             <com.google.android.material.button.MaterialButton
@@ -116,9 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Cancel"
+                android:text="Delete"
                 android:textColor="#D32F2F"
-                app:icon="@android:drawable/ic_menu_delete"
+                android:textSize="10sp"
                 app:iconTint="#D32F2F" />
         </LinearLayout>
 
