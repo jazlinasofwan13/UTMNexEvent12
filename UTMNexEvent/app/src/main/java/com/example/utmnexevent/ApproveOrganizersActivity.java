@@ -61,16 +61,26 @@ public class ApproveOrganizersActivity extends AppCompatActivity {
 
     private void loadPendingOrganizers() {
         db.collection("users")
-                .whereArrayContains("role", "organizer")
-                .whereEqualTo("isApproved", false)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         pendingList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> data = document.getData();
-                            data.put("uid", document.getId());
-                            pendingList.add(data);
+                            Object roleObj = data.get("role");
+                            boolean isOrganizer = false;
+                            
+                            if (roleObj instanceof String && "organizer".equals(roleObj)) {
+                                isOrganizer = true;
+                            } else if (roleObj instanceof List && ((List<?>) roleObj).contains("organizer")) {
+                                isOrganizer = true;
+                            }
+
+                            Boolean isApproved = (Boolean) data.get("isApproved");
+                            if (isOrganizer && (isApproved == null || !isApproved)) {
+                                data.put("uid", document.getId());
+                                pendingList.add(data);
+                            }
                         }
 
                         if (pendingList.isEmpty()) {
