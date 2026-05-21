@@ -147,6 +147,14 @@ public class ManageEventsActivity extends AppCompatActivity {
             
             holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
 
+            holder.buttonViewParticipants.setOnClickListener(v -> {
+                Intent intent = new Intent(ManageEventsActivity.this, EventParticipantsActivity.class);
+                intent.putExtra("eventId", eventId);
+                intent.putExtra("eventName", String.valueOf(event.get("name")));
+                intent.putExtra("role", "organizer");
+                startActivity(intent);
+            });
+
             holder.buttonEdit.setOnClickListener(v -> showEditDialog(event, position));
             holder.buttonCancel.setOnClickListener(v -> showCancelConfirmation(eventId, position));
         }
@@ -158,7 +166,7 @@ public class ManageEventsActivity extends AppCompatActivity {
 
         class EventViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
-            View buttonEdit, buttonCancel;
+            View buttonEdit, buttonCancel, buttonViewParticipants;
 
             public EventViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -169,6 +177,7 @@ public class ManageEventsActivity extends AppCompatActivity {
                 textViewDescription = itemView.findViewById(R.id.textViewDescription);
                 buttonEdit = itemView.findViewById(R.id.buttonEditEvent);
                 buttonCancel = itemView.findViewById(R.id.buttonCancelEvent);
+                buttonViewParticipants = itemView.findViewById(R.id.buttonViewParticipants);
             }
         }
     }

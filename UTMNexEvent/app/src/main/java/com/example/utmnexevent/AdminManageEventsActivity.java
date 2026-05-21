@@ -3,6 +3,7 @@ package com.example.utmnexevent;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,6 +128,13 @@ public class AdminManageEventsActivity extends AppCompatActivity {
             
             holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
 
+            holder.buttonViewParticipants.setOnClickListener(v -> {
+                Intent intent = new Intent(AdminManageEventsActivity.this, AdminEventParticipantsActivity.class);
+                intent.putExtra("eventId", eventId);
+                intent.putExtra("eventName", String.valueOf(event.get("name")));
+                startActivity(intent);
+            });
+
             holder.buttonEdit.setOnClickListener(v -> showEditDialog(event, position));
             holder.buttonCancel.setOnClickListener(v -> showCancelConfirmation(eventId, position));
         }
@@ -138,7 +146,7 @@ public class AdminManageEventsActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
-            View buttonEdit, buttonCancel;
+            View buttonEdit, buttonCancel, buttonViewParticipants;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -149,6 +157,7 @@ public class AdminManageEventsActivity extends AppCompatActivity {
                 textViewDescription = itemView.findViewById(R.id.textViewDescription);
                 buttonEdit = itemView.findViewById(R.id.buttonEditEvent);
                 buttonCancel = itemView.findViewById(R.id.buttonCancelEvent);
+                buttonViewParticipants = itemView.findViewById(R.id.buttonViewParticipants);
             }
         }
     }

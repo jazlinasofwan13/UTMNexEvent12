@@ -91,6 +91,16 @@
             android:gravity="end">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonViewParticipants"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Participants"
+                android:textColor="#000000"
+                app:icon="@android:drawable/ic_menu_view"
+                app:iconTint="#000000" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"

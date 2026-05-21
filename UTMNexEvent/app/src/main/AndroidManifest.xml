@@ -86,6 +86,12 @@
         <activity
             android:name=".AdminManageEventsActivity"
             android:exported="false" />
+        <activity
+            android:name=".EventParticipantsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminEventParticipantsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
