@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Phone Number must be 10-11 digits"
-                android:textColor="#757575"
+                android:textColor="@color/admin_red_dark"
                 android:textSize="10sp"
                 android:textStyle="italic" />
 
