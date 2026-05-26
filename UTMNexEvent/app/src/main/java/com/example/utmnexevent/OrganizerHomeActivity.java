@@ -3,8 +3,10 @@ package com.example.utmnexevent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -17,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,10 +28,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class OrganizerHomeActivity extends AppCompatActivity {
 
-    private TextView textViewOrgHomeTitle;
+    private TextView textViewOrgHomeTitle, textViewNoEvents;
+    private RecyclerView recyclerViewUpcomingEvents;
+    private EventAdapter adapter;
+    private List<Map<String, Object>> eventList;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private ListenerRegistration userListener;
@@ -42,8 +55,16 @@ public class OrganizerHomeActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         textViewOrgHomeTitle = findViewById(R.id.textViewOrgHomeTitle);
+        textViewNoEvents = findViewById(R.id.textViewNoEvents);
+        recyclerViewUpcomingEvents = findViewById(R.id.recyclerViewUpcomingEvents);
+
+        recyclerViewUpcomingEvents.setLayoutManager(new LinearLayoutManager(this));
+        eventList = new ArrayList<>();
+        adapter = new EventAdapter(eventList);
+        recyclerViewUpcomingEvents.setAdapter(adapter);
         
         loadUserData();
+        loadUpcomingEvents();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.organizer_home_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -108,6 +129,87 @@ public class OrganizerHomeActivity extends AppCompatActivity {
         super.onDestroy();
         if (userListener != null) {
             userListener.remove();
+        }
+    }
+
+    private void loadUpcomingEvents() {
+        db.collection("events")
+                .whereEqualTo("status", "active")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        eventList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> eventData = document.getData();
+                            eventList.add(eventData);
+                        }
+                        
+                        if (eventList.isEmpty()) {
+                            textViewNoEvents.setVisibility(View.VISIBLE);
+                            recyclerViewUpcomingEvents.setVisibility(View.GONE);
+                        } else {
+                            textViewNoEvents.setVisibility(View.GONE);
+                            recyclerViewUpcomingEvents.setVisibility(View.VISIBLE);
+                            adapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Toast.makeText(this, "Error loading events", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
+        private List<Map<String, Object>> events;
+
+        public EventAdapter(List<Map<String, Object>> events) {
+            this.events = events;
+        }
+
+        @NonNull
+        @Override
+        public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_simple, parent, false);
+            return new EventViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
+            Map<String, Object> event = events.get(position);
+            
+            holder.textViewName.setText(String.valueOf(event.get("name")));
+            holder.textViewDate.setText(String.valueOf(event.get("date")));
+            holder.textViewTime.setText(String.valueOf(event.get("time")));
+            holder.textViewDescription.setText(String.valueOf(event.get("description")));
+            
+            long joined = 0;
+            Object joinedObj = event.get("participantsJoined");
+            if (joinedObj instanceof Long) joined = (Long) joinedObj;
+            else if (joinedObj instanceof Integer) joined = (Integer) joinedObj;
+            
+            long limit = 0;
+            Object limitObj = event.get("participantLimit");
+            if (limitObj instanceof Long) limit = (Long) limitObj;
+            else if (limitObj instanceof Integer) limit = (Integer) limitObj;
+            
+            holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
+        }
+
+        @Override
+        public int getItemCount() {
+            return events.size();
+        }
+
+        class EventViewHolder extends RecyclerView.ViewHolder {
+            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
+
+            public EventViewHolder(@NonNull View itemView) {
+                super(itemView);
+                textViewName = itemView.findViewById(R.id.textViewEventName);
+                textViewDate = itemView.findViewById(R.id.textViewEventDate);
+                textViewTime = itemView.findViewById(R.id.textViewEventTime);
+                textViewParticipantInfo = itemView.findViewById(R.id.textViewParticipantInfo);
+                textViewDescription = itemView.findViewById(R.id.textViewDescription);
+            }
         }
     }
 
