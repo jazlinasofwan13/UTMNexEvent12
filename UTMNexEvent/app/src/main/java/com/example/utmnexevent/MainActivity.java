@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Set<String> joinedEventIds = new HashSet<>();
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private ListenerRegistration userListener;
+    private ListenerRegistration userListener, eventsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         if (userListener != null) {
             userListener.remove();
         }
+        if (eventsListener != null) {
+            eventsListener.remove();
+        }
     }
 
     private void loadUpcomingEvents() {
@@ -167,13 +170,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchActiveEvents() {
-        db.collection("events")
+        eventsListener = db.collection("events")
                 .whereEqualTo("status", "active")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Error loading events", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
+                    if (value != null) {
                         eventList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : value) {
                             Map<String, Object> eventData = document.getData();
                             eventData.put("id", document.getId());
                             eventList.add(eventData);
@@ -187,8 +194,6 @@ public class MainActivity extends AppCompatActivity {
                             recyclerViewUpcomingEvents.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
                         }
-                    } else {
-                        Toast.makeText(this, "Error loading events", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

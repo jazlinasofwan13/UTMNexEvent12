@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class AdminManageEventsActivity extends AppCompatActivity {
     private EventAdapter adapter;
     private List<Map<String, Object>> eventList;
     private FirebaseFirestore db;
+    private ListenerRegistration eventsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +69,21 @@ public class AdminManageEventsActivity extends AppCompatActivity {
     }
 
     private void loadAllEvents() {
-        db.collection("events")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+        eventsListener = db.collection("events")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Error fetching events", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (value != null) {
                         eventList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : value) {
                             Map<String, Object> data = document.getData();
                             data.put("id", document.getId());
                             eventList.add(data);
                         }
-                        
+
                         if (eventList.isEmpty()) {
                             textViewEmpty.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
@@ -86,10 +92,16 @@ public class AdminManageEventsActivity extends AppCompatActivity {
                             recyclerView.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
                         }
-                    } else {
-                        Toast.makeText(this, "Error fetching events", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventsListener != null) {
+            eventsListener.remove();
+        }
     }
 
     private class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {

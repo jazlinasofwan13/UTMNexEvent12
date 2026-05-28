@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class ManageEventsActivity extends AppCompatActivity {
     private List<Map<String, Object>> eventList;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private ListenerRegistration eventsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +81,22 @@ public class ManageEventsActivity extends AppCompatActivity {
 
         String organizerId = mAuth.getCurrentUser().getUid();
 
-        db.collection("events")
+        eventsListener = db.collection("events")
                 .whereEqualTo("organizerId", organizerId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Error fetching events", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (value != null) {
                         eventList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : value) {
                             Map<String, Object> eventData = document.getData();
-                            eventData.put("id", document.getId()); // Store the document ID
+                            eventData.put("id", document.getId());
                             eventList.add(eventData);
                         }
-                        
+
                         if (eventList.isEmpty()) {
                             textViewEmpty.setVisibility(View.VISIBLE);
                             recyclerViewEvents.setVisibility(View.GONE);
@@ -99,10 +105,16 @@ public class ManageEventsActivity extends AppCompatActivity {
                             recyclerViewEvents.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
                         }
-                    } else {
-                        Toast.makeText(this, "Error fetching events", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventsListener != null) {
+            eventsListener.remove();
+        }
     }
 
     private class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {

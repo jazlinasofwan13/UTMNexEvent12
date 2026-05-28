@@ -43,7 +43,7 @@ public class OrganizerHomeActivity extends AppCompatActivity {
     private List<Map<String, Object>> eventList;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private ListenerRegistration userListener;
+    private ListenerRegistration userListener, eventsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,20 +130,28 @@ public class OrganizerHomeActivity extends AppCompatActivity {
         if (userListener != null) {
             userListener.remove();
         }
+        if (eventsListener != null) {
+            eventsListener.remove();
+        }
     }
 
     private void loadUpcomingEvents() {
-        db.collection("events")
+        eventsListener = db.collection("events")
                 .whereEqualTo("status", "active")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Error loading events", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (value != null) {
                         eventList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : value) {
                             Map<String, Object> eventData = document.getData();
+                            eventData.put("id", document.getId());
                             eventList.add(eventData);
                         }
-                        
+
                         if (eventList.isEmpty()) {
                             textViewNoEvents.setVisibility(View.VISIBLE);
                             recyclerViewUpcomingEvents.setVisibility(View.GONE);
@@ -152,8 +160,6 @@ public class OrganizerHomeActivity extends AppCompatActivity {
                             recyclerViewUpcomingEvents.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
                         }
-                    } else {
-                        Toast.makeText(this, "Error loading events", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
