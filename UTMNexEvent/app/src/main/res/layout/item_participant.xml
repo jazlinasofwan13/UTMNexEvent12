@@ -37,7 +37,28 @@
                 android:text="participant@example.com"
                 android:textColor="#757575"
                 android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textViewAttended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Present"
+                android:textColor="#2E7D32"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:visibility="gone" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewAttended"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@android:drawable/checkbox_on_background"
+            android:visibility="gone"
+            android:contentDescription="Attended"
+            app:tint="#2E7D32" />
 
         <ImageButton
             android:id="@+id/buttonRemoveParticipant"

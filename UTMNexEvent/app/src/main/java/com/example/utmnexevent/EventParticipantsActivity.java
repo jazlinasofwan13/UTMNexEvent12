@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class EventParticipantsActivity extends AppCompatActivity {
     private List<Map<String, Object>> participantList;
     private FirebaseFirestore db;
     private String eventId, eventName;
+    private com.google.firebase.firestore.ListenerRegistration registrationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,40 +75,53 @@ public class EventParticipantsActivity extends AppCompatActivity {
     private void loadParticipants() {
         if (eventId == null) return;
 
-        db.collection("event_registrations")
+        registrationListener = db.collection("event_registrations")
                 .whereEqualTo("eventId", eventId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Error syncing participants", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
+                    if (value != null) {
                         participantList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String userId = document.getString("userId");
-                            String registrationId = document.getId();
-                            fetchUserDetails(userId, registrationId);
-                        }
-                        
-                        if (task.getResult().isEmpty()) {
+                        if (value.isEmpty()) {
                             updateUI();
+                        } else {
+                            for (QueryDocumentSnapshot document : value) {
+                                String userId = document.getString("userId");
+                                String registrationId = document.getId();
+                                Boolean attendedObj = document.getBoolean("attended");
+                                boolean attended = attendedObj != null && attendedObj;
+                                fetchUserDetails(userId, registrationId, attended);
+                            }
                         }
-                    } else {
-                        Toast.makeText(this, "Error fetching registrations", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void fetchUserDetails(String userId, String registrationId) {
+    private void fetchUserDetails(String userId, String registrationId, boolean attended) {
         db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
+                .addOnSuccessListener(userDoc -> {
+                    if (userDoc.exists()) {
                         Map<String, Object> participant = new HashMap<>();
-                        participant.put("name", documentSnapshot.getString("fullName"));
-                        participant.put("email", documentSnapshot.getString("email"));
+                        participant.put("name", userDoc.getString("fullName"));
+                        participant.put("email", userDoc.getString("email"));
                         participant.put("registrationId", registrationId);
                         participant.put("userId", userId);
+                        participant.put("attended", attended);
                         participantList.add(participant);
                         updateUI();
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (registrationListener != null) {
+            registrationListener.remove();
+        }
     }
 
     private void updateUI() {
@@ -140,6 +155,15 @@ public class EventParticipantsActivity extends AppCompatActivity {
             holder.name.setText(String.valueOf(participant.get("name")));
             holder.email.setText(String.valueOf(participant.get("email")));
 
+            boolean attended = participant.get("attended") != null && (boolean) participant.get("attended");
+            if (attended) {
+                holder.textAttended.setVisibility(View.VISIBLE);
+                holder.imageAttended.setVisibility(View.VISIBLE);
+            } else {
+                holder.textAttended.setVisibility(View.GONE);
+                holder.imageAttended.setVisibility(View.GONE);
+            }
+
             holder.btnRemove.setOnClickListener(v -> showRemoveConfirmation(participant, position));
         }
 
@@ -149,13 +173,16 @@ public class EventParticipantsActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView name, email;
+            TextView name, email, textAttended;
+            ImageView imageAttended;
             ImageButton btnRemove;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 name = itemView.findViewById(R.id.textViewParticipantName);
                 email = itemView.findViewById(R.id.textViewParticipantEmail);
+                textAttended = itemView.findViewById(R.id.textViewAttended);
+                imageAttended = itemView.findViewById(R.id.imageViewAttended);
                 btnRemove = itemView.findViewById(R.id.buttonRemoveParticipant);
             }
         }
