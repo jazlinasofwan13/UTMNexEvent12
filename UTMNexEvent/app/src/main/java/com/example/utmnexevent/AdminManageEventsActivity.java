@@ -122,6 +122,7 @@ public class AdminManageEventsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Map<String, Object> event = events.get(position);
             String eventId = (String) event.get("id");
+            String status = String.valueOf(event.get("status"));
             
             holder.textViewName.setText(String.valueOf(event.get("name")));
             holder.textViewDate.setText(String.valueOf(event.get("date")));
@@ -140,6 +141,17 @@ public class AdminManageEventsActivity extends AppCompatActivity {
             
             holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
 
+            // Status Badge
+            if ("completed".equals(status)) {
+                holder.textViewStatusBadge.setText("COMPLETED");
+                holder.textViewStatusBadge.getBackground().setTint(0xFFEEEEEE);
+                holder.textViewStatusBadge.setTextColor(0xFF757575);
+            } else {
+                holder.textViewStatusBadge.setText("ACTIVE");
+                holder.textViewStatusBadge.getBackground().setTint(0xFFE3F2FD); // Light Blue for Admin Active
+                holder.textViewStatusBadge.setTextColor(0xFF1976D2);
+            }
+
             holder.buttonViewParticipants.setOnClickListener(v -> {
                 Intent intent = new Intent(AdminManageEventsActivity.this, AdminEventParticipantsActivity.class);
                 intent.putExtra("eventId", eventId);
@@ -157,7 +169,7 @@ public class AdminManageEventsActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
+            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription, textViewStatusBadge;
             View buttonEdit, buttonCancel, buttonViewParticipants;
 
             public ViewHolder(@NonNull View itemView) {
@@ -167,6 +179,7 @@ public class AdminManageEventsActivity extends AppCompatActivity {
                 textViewTime = itemView.findViewById(R.id.textViewEventTime);
                 textViewParticipantInfo = itemView.findViewById(R.id.textViewParticipantInfo);
                 textViewDescription = itemView.findViewById(R.id.textViewDescription);
+                textViewStatusBadge = itemView.findViewById(R.id.textViewStatusBadge);
                 buttonEdit = itemView.findViewById(R.id.buttonEditEvent);
                 buttonCancel = itemView.findViewById(R.id.buttonCancelEvent);
                 buttonViewParticipants = itemView.findViewById(R.id.buttonViewParticipants);

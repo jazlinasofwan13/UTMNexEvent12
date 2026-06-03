@@ -147,6 +147,7 @@ public class ManageEventsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
             Map<String, Object> event = events.get(position);
             String eventId = (String) event.get("id");
+            String status = String.valueOf(event.get("status"));
             
             holder.textViewName.setText(String.valueOf(event.get("name")));
             holder.textViewDate.setText(String.valueOf(event.get("date")));
@@ -170,6 +171,25 @@ public class ManageEventsActivity extends AppCompatActivity {
             }
             
             holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
+
+            // Status Badge Logic
+            if ("completed".equals(status)) {
+                holder.textViewStatusBadge.setText("COMPLETED");
+                holder.textViewStatusBadge.getBackground().setTint(0xFFFFEBEE); // Light Red
+                holder.textViewStatusBadge.setTextColor(0xFFD32F2F); // Red
+                holder.buttonFinish.setVisibility(View.GONE);
+                holder.buttonEdit.setVisibility(View.GONE);
+                holder.buttonScan.setVisibility(View.GONE);
+            } else {
+                holder.textViewStatusBadge.setText("ACTIVE");
+                holder.textViewStatusBadge.getBackground().setTint(0xFFE8F5E9); // Light Green
+                holder.textViewStatusBadge.setTextColor(0xFF2E7D32); // Green
+                holder.buttonFinish.setVisibility(View.VISIBLE);
+                holder.buttonEdit.setVisibility(View.VISIBLE);
+                holder.buttonScan.setVisibility(View.VISIBLE);
+            }
+
+            holder.buttonFinish.setOnClickListener(v -> showFinishConfirmation(eventId, position));
 
             holder.buttonScan.setOnClickListener(v -> {
                 scanningEventId = eventId;
@@ -198,8 +218,8 @@ public class ManageEventsActivity extends AppCompatActivity {
         }
 
         class EventViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
-            View buttonEdit, buttonCancel, buttonViewParticipants, buttonScan;
+            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription, textViewStatusBadge;
+            View buttonEdit, buttonCancel, buttonViewParticipants, buttonScan, buttonFinish;
 
             public EventViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -208,12 +228,29 @@ public class ManageEventsActivity extends AppCompatActivity {
                 textViewTime = itemView.findViewById(R.id.textViewEventTime);
                 textViewParticipantInfo = itemView.findViewById(R.id.textViewParticipantInfo);
                 textViewDescription = itemView.findViewById(R.id.textViewDescription);
+                textViewStatusBadge = itemView.findViewById(R.id.textViewStatusBadge);
                 buttonEdit = itemView.findViewById(R.id.buttonEditEvent);
                 buttonCancel = itemView.findViewById(R.id.buttonCancelEvent);
                 buttonViewParticipants = itemView.findViewById(R.id.buttonViewParticipants);
                 buttonScan = itemView.findViewById(R.id.buttonScanAttendance);
+                buttonFinish = itemView.findViewById(R.id.buttonFinishEvent);
             }
         }
+    }
+
+    private void showFinishConfirmation(String eventId, int position) {
+        new AlertDialog.Builder(this)
+                .setTitle("Finish Event")
+                .setMessage("Are you sure you want to mark this event as finished? It will be moved to history.")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    db.collection("events").document(eventId).update("status", "completed")
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Event completed!", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(this, "Failed to complete event", Toast.LENGTH_SHORT).show());
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     private void processAttendance(String registrationId) {
