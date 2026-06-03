@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -41,6 +42,8 @@ public class ViewQRActivity extends AppCompatActivity {
     private List<Map<String, Object>> registrationList;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private ListenerRegistration registrationsListener;
+    private Map<String, ListenerRegistration> eventListeners = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,40 +77,86 @@ public class ViewQRActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() == null) return;
         String userId = mAuth.getCurrentUser().getUid();
 
-        db.collection("event_registrations")
+        registrationsListener = db.collection("event_registrations")
                 .whereEqualTo("userId", userId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        registrationList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String eventId = document.getString("eventId");
-                            String registrationId = document.getId();
-                            fetchEventDetails(eventId, registrationId);
-                        }
-
-                        if (task.getResult().isEmpty()) {
-                            updateUI();
-                        }
-                    } else {
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
                         Toast.makeText(this, "Error fetching tickets", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (value != null) {
+                        // Clear existing event listeners to avoid duplicates
+                        for (ListenerRegistration lr : eventListeners.values()) {
+                            lr.remove();
+                        }
+                        eventListeners.clear();
+                        registrationList.clear();
+                        
+                        if (value.isEmpty()) {
+                            updateUI();
+                        } else {
+                            for (QueryDocumentSnapshot document : value) {
+                                String eventId = document.getString("eventId");
+                                String registrationId = document.getId();
+                                fetchEventDetails(eventId, registrationId);
+                            }
+                        }
                     }
                 });
     }
 
     private void fetchEventDetails(String eventId, String registrationId) {
-        db.collection("events").document(eventId).get()
-                .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("eventName", doc.getString("name"));
-                        data.put("eventDate", doc.getString("date"));
-                        data.put("eventTime", doc.getString("time"));
-                        data.put("registrationId", registrationId);
-                        registrationList.add(data);
+        if (eventId == null) return;
+        
+        ListenerRegistration lr = db.collection("events").document(eventId)
+                .addSnapshotListener((doc, error) -> {
+                    if (doc != null && doc.exists()) {
+                        String status = doc.getString("status");
+                        
+                        // Find if this registration is already in the list
+                        int index = -1;
+                        for (int i = 0; i < registrationList.size(); i++) {
+                            if (registrationId.equals(registrationList.get(i).get("registrationId"))) {
+                                index = i;
+                                break;
+                            }
+                        }
+
+                        if ("active".equals(status)) {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("eventName", doc.getString("name"));
+                            data.put("eventDate", doc.getString("date"));
+                            data.put("eventTime", doc.getString("time"));
+                            data.put("registrationId", registrationId);
+                            
+                            if (index == -1) {
+                                registrationList.add(data);
+                            } else {
+                                registrationList.set(index, data);
+                            }
+                        } else {
+                            // If status changed to something else (like completed), remove it
+                            if (index != -1) {
+                                registrationList.remove(index);
+                            }
+                        }
                         updateUI();
                     }
                 });
+        
+        eventListeners.put(registrationId, lr);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (registrationsListener != null) {
+            registrationsListener.remove();
+        }
+        for (ListenerRegistration lr : eventListeners.values()) {
+            lr.remove();
+        }
     }
 
     private void updateUI() {
