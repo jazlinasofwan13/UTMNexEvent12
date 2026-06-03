@@ -13,6 +13,7 @@ firebaseAuth = "24.0.1"
 firebaseStorage = "22.0.1"
 coreSplashscreen = "1.2.0"
 glide = "5.0.7"
+zxing-android-embedded = "4.3.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -27,6 +28,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+zxing-android-embedded = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing-android-embedded" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
