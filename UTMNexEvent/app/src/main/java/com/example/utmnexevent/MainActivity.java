@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewUpcomingEvents;
     private EventAdapter adapter;
     private List<Map<String, Object>> eventList;
-    private Set<String> joinedEventIds = new HashSet<>();
+    private Map<String, String> joinedEventRegistrations = new HashMap<>(); // eventId -> registrationId
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private ListenerRegistration userListener, eventsListener;
@@ -158,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(regTask -> {
                     if (regTask.isSuccessful()) {
-                        joinedEventIds.clear();
+                        joinedEventRegistrations.clear();
                         for (QueryDocumentSnapshot doc : regTask.getResult()) {
-                            joinedEventIds.add(doc.getString("eventId"));
+                            joinedEventRegistrations.put(doc.getString("eventId"), doc.getId());
                         }
 
                         // Then, load the active events
@@ -241,12 +241,19 @@ public class MainActivity extends AppCompatActivity {
             holder.textViewParticipantInfo.setText(String.format(Locale.getDefault(), "Participants: %d / %d", joined, limit));
 
             // Check if already joined
-            if (joinedEventIds.contains(eventId)) {
+            if (joinedEventRegistrations.containsKey(eventId)) {
                 holder.buttonJoin.setVisibility(View.GONE);
-                holder.textViewJoined.setVisibility(View.VISIBLE);
+                holder.layoutJoinedActions.setVisibility(View.VISIBLE);
+                
+                holder.buttonCancelJoin.setOnClickListener(v -> {
+                    String regId = joinedEventRegistrations.get(eventId);
+                    if (regId != null) {
+                        cancelJoinEvent(eventId, regId, event, position);
+                    }
+                });
             } else {
                 holder.buttonJoin.setVisibility(View.VISIBLE);
-                holder.textViewJoined.setVisibility(View.GONE);
+                holder.layoutJoinedActions.setVisibility(View.GONE);
 
                 long finalJoined = joined;
                 long finalLimit = limit;
@@ -266,8 +273,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         class EventViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription, textViewJoined;
-            Button buttonJoin;
+            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
+            View layoutJoinedActions;
+            Button buttonJoin, buttonCancelJoin;
 
             public EventViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -277,9 +285,31 @@ public class MainActivity extends AppCompatActivity {
                 textViewParticipantInfo = itemView.findViewById(R.id.textViewParticipantInfo);
                 textViewDescription = itemView.findViewById(R.id.textViewDescription);
                 buttonJoin = itemView.findViewById(R.id.buttonJoinEvent);
-                textViewJoined = itemView.findViewById(R.id.textViewAlreadyJoined);
+                layoutJoinedActions = itemView.findViewById(R.id.layoutJoinedActions);
+                buttonCancelJoin = itemView.findViewById(R.id.buttonCancelJoin);
             }
         }
+    }
+
+    private void cancelJoinEvent(String eventId, String regId, Map<String, Object> event, int position) {
+        db.collection("event_registrations").document(regId).delete()
+                .addOnSuccessListener(aVoid -> {
+                    db.collection("events").document(eventId)
+                            .update("participantsJoined", FieldValue.increment(-1))
+                            .addOnSuccessListener(v -> {
+                                Toast.makeText(this, "Participation cancelled", Toast.LENGTH_SHORT).show();
+                                joinedEventRegistrations.remove(eventId);
+                                
+                                long currentJoined = 0;
+                                Object joinedObj = event.get("participantsJoined");
+                                if (joinedObj instanceof Long) currentJoined = (Long) joinedObj;
+                                else if (joinedObj instanceof Integer) currentJoined = (Integer) joinedObj;
+                                
+                                event.put("participantsJoined", Math.max(0, currentJoined - 1));
+                                adapter.notifyItemChanged(position);
+                            });
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to cancel: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void joinEvent(String eventId, Map<String, Object> event, int position) {
@@ -298,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                             .update("participantsJoined", FieldValue.increment(1))
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(this, "Joined successfully!", Toast.LENGTH_SHORT).show();
-                                joinedEventIds.add(eventId);
+                                joinedEventRegistrations.put(eventId, docRef.getId());
 
                                 // Update local data to reflect new count
                                 long currentJoined = 0;

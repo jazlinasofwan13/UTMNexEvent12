@@ -93,16 +93,32 @@
             android:backgroundTint="#D32F2F"
             app:cornerRadius="8dp" />
 
-        <TextView
-            android:id="@+id/textViewAlreadyJoined"
+        <LinearLayout
+            android:id="@+id/layoutJoinedActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="You already joined this event"
-            android:textStyle="bold"
-            android:textColor="#2E7D32"
-            android:gravity="center"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textViewAlreadyJoined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="You already joined this event"
+                android:textStyle="bold"
+                android:textColor="#2E7D32"
+                android:gravity="center" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonCancelJoin"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel Participation"
+                android:textColor="#D32F2F"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
