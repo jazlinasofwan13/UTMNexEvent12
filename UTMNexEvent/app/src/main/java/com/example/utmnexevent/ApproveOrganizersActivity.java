@@ -70,10 +70,10 @@ public class ApproveOrganizersActivity extends AppCompatActivity {
                             Object roleObj = data.get("role");
                             boolean isOrganizer = false;
                             
-                            if (roleObj instanceof String && "organizer".equals(roleObj)) {
-                                isOrganizer = true;
-                            } else if (roleObj instanceof List && ((List<?>) roleObj).contains("organizer")) {
-                                isOrganizer = true;
+                            if (roleObj instanceof String) {
+                                isOrganizer = "organizer".equals(roleObj);
+                            } else if (roleObj instanceof List) {
+                                isOrganizer = ((List<?>) roleObj).contains("organizer");
                             }
 
                             Boolean isApproved = (Boolean) data.get("isApproved");
