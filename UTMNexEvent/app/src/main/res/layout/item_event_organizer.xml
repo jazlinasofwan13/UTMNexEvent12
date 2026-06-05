@@ -114,44 +114,42 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonFinishEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Finish"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:text="FINISH"
                 android:textColor="#F57C00"
-                android:textSize="10sp"
-                app:icon="@android:drawable/ic_menu_save"
-                app:iconTint="#F57C00" />
+                android:textSize="8sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonViewParticipants"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View Participants"
+                android:text="VIEW PARTICIPANT"
                 android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 app:iconTint="@color/organizer_blue_primary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="Edit"
+                android:text="EDIT"
                 android:textColor="@color/organizer_blue_primary"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 app:iconTint="@color/organizer_blue_primary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCancelEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Delete"
-                android:textColor="#D32F2F"
-                android:textSize="10sp"
-                app:iconTint="#D32F2F" />
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:text="DELETE"
+                android:textColor="@color/admin_red_dark"
+                android:textSize="8sp"
+                app:iconTint="@color/admin_red_dark" />
+
         </LinearLayout>
 
     </LinearLayout>
