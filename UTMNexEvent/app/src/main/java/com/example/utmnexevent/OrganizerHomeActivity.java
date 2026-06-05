@@ -93,7 +93,7 @@ public class OrganizerHomeActivity extends AppCompatActivity {
             ScanOptions options = new ScanOptions();
             options.setPrompt("Scan Participant QR Ticket");
             options.setBeepEnabled(true);
-            options.setOrientationLocked(false);
+            options.setOrientationLocked(true);
             barcodeLauncher.launch(options);
         });
 
