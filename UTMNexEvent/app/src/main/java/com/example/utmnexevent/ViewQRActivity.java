@@ -197,7 +197,11 @@ public class ViewQRActivity extends AppCompatActivity {
         private void generateQRCode(String text, ImageView imageView) {
             MultiFormatWriter writer = new MultiFormatWriter();
             try {
-                BitMatrix matrix = writer.encode(text, BarcodeFormat.QR_CODE, 512, 512);
+                // Using 400x400 and adding a margin for better scanning on real phones
+                Map<com.google.zxing.EncodeHintType, Object> hints = new HashMap<>();
+                hints.put(com.google.zxing.EncodeHintType.MARGIN, 2); 
+                
+                BitMatrix matrix = writer.encode(text, BarcodeFormat.QR_CODE, 400, 400, hints);
                 BarcodeEncoder encoder = new BarcodeEncoder();
                 Bitmap bitmap = encoder.createBitmap(matrix);
                 imageView.setImageBitmap(bitmap);

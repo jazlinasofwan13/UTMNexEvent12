@@ -123,17 +123,6 @@
                 app:iconTint="#F57C00" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonScanAttendance"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scan"
-                android:textColor="#2E7D32"
-                android:textSize="10sp"
-                app:icon="@android:drawable/ic_menu_camera"
-                app:iconTint="#2E7D32" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonViewParticipants"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"

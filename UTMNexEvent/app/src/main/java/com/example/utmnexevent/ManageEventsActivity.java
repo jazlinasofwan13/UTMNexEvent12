@@ -25,8 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.journeyapps.barcodescanner.ScanContract;
-import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,16 +42,6 @@ public class ManageEventsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private ListenerRegistration eventsListener;
-    private String scanningEventId;
-
-    private final androidx.activity.result.ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
-            result -> {
-                if(result.getContents() == null) {
-                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-                } else {
-                    processAttendance(result.getContents());
-                }
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,26 +167,15 @@ public class ManageEventsActivity extends AppCompatActivity {
                 holder.textViewStatusBadge.setTextColor(0xFFD32F2F); // Red
                 holder.buttonFinish.setVisibility(View.GONE);
                 holder.buttonEdit.setVisibility(View.GONE);
-                holder.buttonScan.setVisibility(View.GONE);
             } else {
                 holder.textViewStatusBadge.setText("ACTIVE");
                 holder.textViewStatusBadge.getBackground().setTint(0xFFE8F5E9); // Light Green
                 holder.textViewStatusBadge.setTextColor(0xFF2E7D32); // Green
                 holder.buttonFinish.setVisibility(View.VISIBLE);
                 holder.buttonEdit.setVisibility(View.VISIBLE);
-                holder.buttonScan.setVisibility(View.VISIBLE);
             }
 
             holder.buttonFinish.setOnClickListener(v -> showFinishConfirmation(eventId, position));
-
-            holder.buttonScan.setOnClickListener(v -> {
-                scanningEventId = eventId;
-                ScanOptions options = new ScanOptions();
-                options.setPrompt("Scan Participant Ticket");
-                options.setBeepEnabled(true);
-                options.setOrientationLocked(false);
-                barcodeLauncher.launch(options);
-            });
 
             holder.buttonViewParticipants.setOnClickListener(v -> {
                 Intent intent = new Intent(ManageEventsActivity.this, EventParticipantsActivity.class);
@@ -219,7 +196,7 @@ public class ManageEventsActivity extends AppCompatActivity {
 
         class EventViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription, textViewStatusBadge;
-            View buttonEdit, buttonCancel, buttonViewParticipants, buttonScan, buttonFinish;
+            View buttonEdit, buttonCancel, buttonViewParticipants, buttonFinish;
 
             public EventViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -232,7 +209,6 @@ public class ManageEventsActivity extends AppCompatActivity {
                 buttonEdit = itemView.findViewById(R.id.buttonEditEvent);
                 buttonCancel = itemView.findViewById(R.id.buttonCancelEvent);
                 buttonViewParticipants = itemView.findViewById(R.id.buttonViewParticipants);
-                buttonScan = itemView.findViewById(R.id.buttonScanAttendance);
                 buttonFinish = itemView.findViewById(R.id.buttonFinishEvent);
             }
         }
@@ -251,31 +227,6 @@ public class ManageEventsActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    private void processAttendance(String registrationId) {
-        if (scanningEventId == null) return;
-
-        db.collection("event_registrations").document(registrationId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String eventId = documentSnapshot.getString("eventId");
-                        if (scanningEventId.equals(eventId)) {
-                            // Correct event, mark attended
-                            db.collection("event_registrations").document(registrationId)
-                                    .update("attended", true)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(this, "Attendance marked successfully!", Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to mark attendance", Toast.LENGTH_SHORT).show());
-                        } else {
-                            Toast.makeText(this, "Error: This ticket is for a different event!", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(this, "Error: Invalid Ticket!", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error scanning: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void showCancelConfirmation(String eventId, int position) {
