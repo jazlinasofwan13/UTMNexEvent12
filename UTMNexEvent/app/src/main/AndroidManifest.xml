@@ -93,6 +93,9 @@
             android:name=".ManageOrganizersActivity"
             android:exported="false" />
         <activity
+            android:name=".ManageParticipantsActivity"
+            android:exported="false" />
+        <activity
             android:name=".EventParticipantsActivity"
             android:exported="false" />
         <activity

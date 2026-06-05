@@ -86,88 +86,177 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:padding="20dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <!-- MANAGE EVENT SECTION -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/buttonApproveOrganizers"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/aprove_organizer_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Approve Organizer"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- MANAGE ALL EVENTS SECTION -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/buttonManageAllEvents"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/event_planner_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Manage Events"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- MANAGE ORGANIZERS SECTION -->
-            <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/buttonManageOrganizers"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/manage_organizer_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- SCAN QR SECTION -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Manage Organizers"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/buttonScanAttendance"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/ic_qr_nav" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Scan QR"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- MANAGE EVENT SECTION -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/buttonApproveOrganizers"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/aprove_organizer_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Approve Organizer"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- MANAGE ALL EVENTS SECTION -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/buttonManageAllEvents"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/event_planner_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Manage Events"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- MANAGE ORGANIZERS SECTION -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/buttonManageOrganizers"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/manage_organizer_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Manage Organizers"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- MANAGE PARTICIPANTS SECTION -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/buttonManageParticipants"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/profile_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Manage Participants"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- SPACER FOR ALIGNMENT -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+                    <View android:layout_width="70dp" android:layout_height="70dp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

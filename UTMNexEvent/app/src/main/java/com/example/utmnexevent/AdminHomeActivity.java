@@ -1,5 +1,6 @@
 package com.example.utmnexevent;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
@@ -31,6 +34,15 @@ public class AdminHomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private ListenerRegistration userListener;
+
+    private final androidx.activity.result.ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
+            result -> {
+                if(result.getContents() == null) {
+                    Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    processAttendance(result.getContents());
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +76,19 @@ public class AdminHomeActivity extends AppCompatActivity {
         findViewById(R.id.buttonManageOrganizers).setOnClickListener(v -> {
             Intent intent = new Intent(AdminHomeActivity.this, ManageOrganizersActivity.class);
             startActivity(intent);
+        });
+
+        findViewById(R.id.buttonManageParticipants).setOnClickListener(v -> {
+            Intent intent = new Intent(AdminHomeActivity.this, ManageParticipantsActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.buttonScanAttendance).setOnClickListener(v -> {
+            ScanOptions options = new ScanOptions();
+            options.setPrompt("Scan Participant QR Ticket (Admin)");
+            options.setBeepEnabled(true);
+            options.setOrientationLocked(true);
+            barcodeLauncher.launch(options);
         });
 
         ImageButton buttonMenu = findViewById(R.id.buttonMenu);
@@ -130,5 +155,36 @@ public class AdminHomeActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void processAttendance(String registrationId) {
+        db.collection("event_registrations").document(registrationId).get()
+                .addOnSuccessListener(regDoc -> {
+                    if (regDoc.exists()) {
+                        String eventId = regDoc.getString("eventId");
+                        String userId = regDoc.getString("userId");
+
+                        db.collection("events").document(eventId).get().addOnSuccessListener(eventDoc -> {
+                            String eventName = eventDoc.getString("name");
+                            db.collection("users").document(userId).get().addOnSuccessListener(userDoc -> {
+                                String userName = userDoc.getString("fullName");
+
+                                db.collection("event_registrations").document(registrationId)
+                                        .update("attended", true)
+                                        .addOnSuccessListener(aVoid -> {
+                                            new AlertDialog.Builder(this)
+                                                    .setTitle("Attendance Marked by Admin!")
+                                                    .setMessage("User: " + userName + "\nEvent: " + eventName)
+                                                    .setPositiveButton("OK", null)
+                                                    .show();
+                                        })
+                                        .addOnFailureListener(e -> Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show());
+                            });
+                        });
+                    } else {
+                        Toast.makeText(this, "Invalid QR Code: Ticket not found", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
 }

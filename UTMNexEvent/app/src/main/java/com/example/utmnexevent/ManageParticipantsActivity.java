@@ -25,32 +25,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ManageOrganizersActivity extends AppCompatActivity {
+public class ManageParticipantsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView textViewEmpty;
-    private OrganizerAdapter adapter;
-    private List<Map<String, Object>> organizerList;
+    private ParticipantAdapter adapter;
+    private List<Map<String, Object>> participantList;
     private FirebaseFirestore db;
-    private com.google.firebase.firestore.ListenerRegistration organizersListener;
+    private com.google.firebase.firestore.ListenerRegistration participantsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_manage_organizers);
+        setContentView(R.layout.activity_manage_participants);
 
         db = FirebaseFirestore.getInstance();
 
-        recyclerView = findViewById(R.id.recyclerViewOrganizers);
+        recyclerView = findViewById(R.id.recyclerViewParticipants);
         textViewEmpty = findViewById(R.id.textViewEmpty);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        organizerList = new ArrayList<>();
-        adapter = new OrganizerAdapter(organizerList);
+        participantList = new ArrayList<>();
+        adapter = new ParticipantAdapter(participantList);
         recyclerView.setAdapter(adapter);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.manage_organizers_main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.manage_participants_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -58,37 +58,37 @@ public class ManageOrganizersActivity extends AppCompatActivity {
 
         findViewById(R.id.buttonBack).setOnClickListener(v -> finish());
 
-        loadOrganizers();
+        loadParticipants();
     }
 
-    private void loadOrganizers() {
-        organizersListener = db.collection("users")
+    private void loadParticipants() {
+        participantsListener = db.collection("users")
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        Toast.makeText(this, "Error fetching organizers", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Error fetching participants", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     if (value != null) {
-                        organizerList.clear();
+                        participantList.clear();
                         for (QueryDocumentSnapshot document : value) {
                             Map<String, Object> data = document.getData();
                             Object roleObj = data.get("role");
-                            boolean isOrganizer = false;
+                            boolean isParticipant = false;
 
                             if (roleObj instanceof String) {
-                                isOrganizer = "organizer".equals(roleObj);
+                                isParticipant = "participant".equals(roleObj);
                             } else if (roleObj instanceof List) {
-                                isOrganizer = ((List<?>) roleObj).contains("organizer");
+                                isParticipant = ((List<?>) roleObj).contains("participant");
                             }
 
-                            if (isOrganizer) {
+                            if (isParticipant) {
                                 data.put("uid", document.getId());
-                                organizerList.add(data);
+                                participantList.add(data);
                             }
                         }
 
-                        if (organizerList.isEmpty()) {
+                        if (participantList.isEmpty()) {
                             textViewEmpty.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
                         } else {
@@ -103,81 +103,73 @@ public class ManageOrganizersActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (organizersListener != null) {
-            organizersListener.remove();
+        if (participantsListener != null) {
+            participantsListener.remove();
         }
     }
 
-    private class OrganizerAdapter extends RecyclerView.Adapter<OrganizerAdapter.ViewHolder> {
-        private List<Map<String, Object>> organizers;
+    private class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.ViewHolder> {
+        private List<Map<String, Object>> participants;
 
-        public OrganizerAdapter(List<Map<String, Object>> organizers) {
-            this.organizers = organizers;
+        public ParticipantAdapter(List<Map<String, Object>> participants) {
+            this.participants = participants;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_organizer_account, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_participant_account, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Map<String, Object> org = organizers.get(position);
-            holder.textViewName.setText(String.valueOf(org.get("fullName")));
-            holder.textViewEmail.setText(String.valueOf(org.get("email")));
+            Map<String, Object> part = participants.get(position);
+            holder.textViewName.setText(String.valueOf(part.get("fullName")));
+            holder.textViewEmail.setText(String.valueOf(part.get("email")));
             
-            Boolean isApproved = (Boolean) org.get("isApproved");
-            if (isApproved != null && isApproved) {
-                holder.textViewStatus.setText("Status: Approved");
-                holder.textViewStatus.setTextColor(getResources().getColor(R.color.admin_red_primary, getTheme())); // Wait, using red for approved? maybe green. 
-                // Using #2E7D32 from layout but I'll set it here to be sure.
-                holder.textViewStatus.setTextColor(0xFF2E7D32);
-            } else {
-                holder.textViewStatus.setText("Status: Pending Approval");
-                holder.textViewStatus.setTextColor(0xFFFFA000); // Orange
-            }
+            String phone = (String) part.get("phone");
+            holder.textViewPhone.setText(phone != null ? phone : "No phone number");
 
-            holder.buttonDelete.setOnClickListener(v -> showDeleteConfirmation((String) org.get("uid"), position));
+            holder.buttonDelete.setOnClickListener(v -> showDeleteConfirmation((String) part.get("uid"), position));
         }
 
         @Override
         public int getItemCount() {
-            return organizers.size();
+            return participants.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName, textViewEmail, textViewStatus;
+            TextView textViewName, textViewEmail, textViewPhone;
             ImageButton buttonDelete;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                textViewName = itemView.findViewById(R.id.textViewOrgName);
-                textViewEmail = itemView.findViewById(R.id.textViewOrgEmail);
-                textViewStatus = itemView.findViewById(R.id.textViewApprovalStatus);
-                buttonDelete = itemView.findViewById(R.id.buttonDeleteOrganizer);
+                textViewName = itemView.findViewById(R.id.textViewParticipantName);
+                textViewEmail = itemView.findViewById(R.id.textViewParticipantEmail);
+                textViewPhone = itemView.findViewById(R.id.textViewParticipantPhone);
+                buttonDelete = itemView.findViewById(R.id.buttonDeleteParticipant);
             }
         }
     }
 
     private void showDeleteConfirmation(String uid, int position) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Organizer Account")
-                .setMessage("Are you sure you want to permanently delete this organizer account? This action cannot be undone.")
-                .setPositiveButton("Delete", (dialog, which) -> deleteOrganizer(uid, position))
+                .setTitle("Delete Participant Account")
+                .setMessage("Are you sure you want to permanently delete this participant account? This action cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> deleteParticipant(uid, position))
                 .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    private void deleteOrganizer(String uid, int position) {
+    private void deleteParticipant(String uid, int position) {
         db.collection("users").document(uid)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    organizerList.remove(position);
+                    participantList.remove(position);
                     adapter.notifyItemRemoved(position);
-                    Toast.makeText(this, "Organizer account deleted", Toast.LENGTH_SHORT).show();
-                    if (organizerList.isEmpty()) {
+                    Toast.makeText(this, "Participant account deleted", Toast.LENGTH_SHORT).show();
+                    if (participantList.isEmpty()) {
                         textViewEmpty.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
                     }
