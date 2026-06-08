@@ -256,11 +256,27 @@ public class OrganizerHomeActivity extends AppCompatActivity {
                     if (regDoc.exists()) {
                         String eventId = regDoc.getString("eventId");
                         String userId = regDoc.getString("userId");
+                        Boolean alreadyAttended = regDoc.getBoolean("attended");
+
+                        if (alreadyAttended != null && alreadyAttended) {
+                            db.collection("events").document(eventId != null ? eventId : "").get().addOnSuccessListener(eventDoc -> {
+                                String eventName = eventDoc.getString("name");
+                                db.collection("users").document(userId != null ? userId : "").get().addOnSuccessListener(userDoc -> {
+                                    String userName = userDoc.getString("fullName");
+                                    new AlertDialog.Builder(this)
+                                            .setTitle("Already Checked In")
+                                            .setMessage("User: " + userName + "\nhas already been marked as present for\nEvent: " + eventName)
+                                            .setPositiveButton("OK", null)
+                                            .show();
+                                });
+                            });
+                            return;
+                        }
                         
                         // Fetch event and user name for a better success message
-                        db.collection("events").document(eventId).get().addOnSuccessListener(eventDoc -> {
+                        db.collection("events").document(eventId != null ? eventId : "").get().addOnSuccessListener(eventDoc -> {
                             String eventName = eventDoc.getString("name");
-                            db.collection("users").document(userId).get().addOnSuccessListener(userDoc -> {
+                            db.collection("users").document(userId != null ? userId : "").get().addOnSuccessListener(userDoc -> {
                                 String userName = userDoc.getString("fullName");
                                 
                                 // Mark as attended

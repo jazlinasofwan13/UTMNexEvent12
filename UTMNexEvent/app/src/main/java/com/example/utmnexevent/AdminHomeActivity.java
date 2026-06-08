@@ -163,10 +163,26 @@ public class AdminHomeActivity extends AppCompatActivity {
                     if (regDoc.exists()) {
                         String eventId = regDoc.getString("eventId");
                         String userId = regDoc.getString("userId");
+                        Boolean alreadyAttended = regDoc.getBoolean("attended");
 
-                        db.collection("events").document(eventId).get().addOnSuccessListener(eventDoc -> {
+                        if (alreadyAttended != null && alreadyAttended) {
+                            db.collection("events").document(eventId != null ? eventId : "").get().addOnSuccessListener(eventDoc -> {
+                                String eventName = eventDoc.getString("name");
+                                db.collection("users").document(userId != null ? userId : "").get().addOnSuccessListener(userDoc -> {
+                                    String userName = userDoc.getString("fullName");
+                                    new AlertDialog.Builder(this)
+                                            .setTitle("Already Checked In (Admin)")
+                                            .setMessage("User: " + userName + "\nhas already been marked as present for\nEvent: " + eventName)
+                                            .setPositiveButton("OK", null)
+                                            .show();
+                                });
+                            });
+                            return;
+                        }
+
+                        db.collection("events").document(eventId != null ? eventId : "").get().addOnSuccessListener(eventDoc -> {
                             String eventName = eventDoc.getString("name");
-                            db.collection("users").document(userId).get().addOnSuccessListener(userDoc -> {
+                            db.collection("users").document(userId != null ? userId : "").get().addOnSuccessListener(userDoc -> {
                                 String userName = userDoc.getString("fullName");
 
                                 db.collection("event_registrations").document(registrationId)
