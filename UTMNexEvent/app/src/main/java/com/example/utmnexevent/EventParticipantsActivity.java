@@ -156,13 +156,8 @@ public class EventParticipantsActivity extends AppCompatActivity {
             holder.email.setText(String.valueOf(participant.get("email")));
 
             boolean attended = participant.get("attended") != null && (boolean) participant.get("attended");
-            if (attended) {
-                holder.textAttended.setVisibility(View.VISIBLE);
-                holder.imageAttended.setVisibility(View.VISIBLE);
-            } else {
-                holder.textAttended.setVisibility(View.GONE);
-                holder.imageAttended.setVisibility(View.GONE);
-            }
+            holder.textAttended.setVisibility(attended ? View.VISIBLE : View.GONE);
+            holder.btnRemove.setVisibility(View.VISIBLE); // Ensure it is always visible as requested
 
             holder.btnRemove.setOnClickListener(v -> showRemoveConfirmation(participant, position));
         }
@@ -174,7 +169,6 @@ public class EventParticipantsActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView name, email, textAttended;
-            ImageView imageAttended;
             ImageButton btnRemove;
 
             public ViewHolder(@NonNull View itemView) {
@@ -182,7 +176,6 @@ public class EventParticipantsActivity extends AppCompatActivity {
                 name = itemView.findViewById(R.id.textViewParticipantName);
                 email = itemView.findViewById(R.id.textViewParticipantEmail);
                 textAttended = itemView.findViewById(R.id.textViewAttended);
-                imageAttended = itemView.findViewById(R.id.imageViewAttended);
                 btnRemove = itemView.findViewById(R.id.buttonRemoveParticipant);
             }
         }
