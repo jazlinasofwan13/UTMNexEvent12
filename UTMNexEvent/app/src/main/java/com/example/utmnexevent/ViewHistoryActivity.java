@@ -98,8 +98,11 @@ public class ViewHistoryActivity extends AppCompatActivity {
                     if (doc.exists()) {
                         Map<String, Object> data = new HashMap<>();
                         data.put("name", doc.getString("name"));
+                        data.put("venue", doc.getString("venue"));
                         data.put("date", doc.getString("date"));
+                        data.put("endDate", doc.getString("endDate"));
                         data.put("time", doc.getString("time"));
+                        data.put("endTime", doc.getString("endTime"));
                         data.put("attended", attended);
                         historyList.add(data);
                         updateUI();
@@ -144,8 +147,25 @@ public class ViewHistoryActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Map<String, Object> item = items.get(position);
             holder.name.setText(String.valueOf(item.get("name")));
-            holder.date.setText(String.valueOf(item.get("date")));
-            holder.time.setText(String.valueOf(item.get("time")));
+            
+            String venue = (String) item.get("venue");
+            holder.venue.setText(venue != null ? venue : "No venue specified");
+
+            String date = String.valueOf(item.get("date"));
+            String endDate = (String) item.get("endDate");
+            if (endDate != null && !endDate.isEmpty() && !endDate.equals(date)) {
+                holder.date.setText(date + " - " + endDate);
+            } else {
+                holder.date.setText(date);
+            }
+
+            String time = String.valueOf(item.get("time"));
+            String endTime = (String) item.get("endTime");
+            if (endTime != null && !endTime.isEmpty()) {
+                holder.time.setText(time + " - " + endTime);
+            } else {
+                holder.time.setText(time);
+            }
 
             Boolean attendedObj = (Boolean) item.get("attended");
             boolean attended = attendedObj != null && attendedObj;
@@ -164,11 +184,12 @@ public class ViewHistoryActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView name, date, time, status;
+            TextView name, venue, date, time, status;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 name = itemView.findViewById(R.id.textViewEventName);
+                venue = itemView.findViewById(R.id.textViewEventVenue);
                 date = itemView.findViewById(R.id.textViewEventDate);
                 time = itemView.findViewById(R.id.textViewEventTime);
                 status = itemView.findViewById(R.id.textViewAttendanceStatus);

@@ -44,6 +44,16 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textViewEventVenue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Venue"
+            android:textColor="#1976D2"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,6 +130,16 @@
                 android:textColor="#000000"
                 android:textSize="10sp"
                 app:iconTint="#000000" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFinishEvent"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finish"
+                android:textColor="#2E7D32"
+                android:textSize="10sp"
+                app:iconTint="#2E7D32" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditEvent"

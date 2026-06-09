@@ -218,8 +218,26 @@ public class MainActivity extends AppCompatActivity {
             String eventId = (String) event.get("id");
 
             holder.textViewName.setText(String.valueOf(event.get("name")));
-            holder.textViewDate.setText(String.valueOf(event.get("date")));
-            holder.textViewTime.setText(String.valueOf(event.get("time")));
+            
+            String venue = (String) event.get("venue");
+            holder.textViewVenue.setText(venue != null ? venue : "No venue specified");
+
+            String date = String.valueOf(event.get("date"));
+            String endDate = (String) event.get("endDate");
+            if (endDate != null && !endDate.isEmpty() && !endDate.equals(date)) {
+                holder.textViewDate.setText(date + " - " + endDate);
+            } else {
+                holder.textViewDate.setText(date);
+            }
+
+            String time = String.valueOf(event.get("time"));
+            String endTime = (String) event.get("endTime");
+            if (endTime != null && !endTime.isEmpty()) {
+                holder.textViewTime.setText(time + " - " + endTime);
+            } else {
+                holder.textViewTime.setText(time);
+            }
+
             holder.textViewDescription.setText(String.valueOf(event.get("description")));
 
             long joined = 0;
@@ -273,13 +291,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         class EventViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
+            TextView textViewName, textViewVenue, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription;
             View layoutJoinedActions;
             Button buttonJoin, buttonCancelJoin;
 
             public EventViewHolder(@NonNull View itemView) {
                 super(itemView);
                 textViewName = itemView.findViewById(R.id.textViewEventName);
+                textViewVenue = itemView.findViewById(R.id.textViewEventVenue);
                 textViewDate = itemView.findViewById(R.id.textViewEventDate);
                 textViewTime = itemView.findViewById(R.id.textViewEventTime);
                 textViewParticipantInfo = itemView.findViewById(R.id.textViewParticipantInfo);

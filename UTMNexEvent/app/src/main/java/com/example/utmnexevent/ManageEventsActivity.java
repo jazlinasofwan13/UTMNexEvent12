@@ -138,8 +138,26 @@ public class ManageEventsActivity extends AppCompatActivity {
             String status = String.valueOf(event.get("status"));
             
             holder.textViewName.setText(String.valueOf(event.get("name")));
-            holder.textViewDate.setText(String.valueOf(event.get("date")));
-            holder.textViewTime.setText(String.valueOf(event.get("time")));
+            
+            String venue = (String) event.get("venue");
+            holder.textViewVenue.setText(venue != null ? venue : "No venue specified");
+
+            String date = String.valueOf(event.get("date"));
+            String endDate = (String) event.get("endDate");
+            if (endDate != null && !endDate.isEmpty() && !endDate.equals(date)) {
+                holder.textViewDate.setText(date + " - " + endDate);
+            } else {
+                holder.textViewDate.setText(date);
+            }
+
+            String time = String.valueOf(event.get("time"));
+            String endTime = (String) event.get("endTime");
+            if (endTime != null && !endTime.isEmpty()) {
+                holder.textViewTime.setText(time + " - " + endTime);
+            } else {
+                holder.textViewTime.setText(time);
+            }
+            
             holder.textViewDescription.setText(String.valueOf(event.get("description")));
             
             long joined = 0;
@@ -195,12 +213,13 @@ public class ManageEventsActivity extends AppCompatActivity {
         }
 
         class EventViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription, textViewStatusBadge;
+            TextView textViewName, textViewVenue, textViewDate, textViewTime, textViewParticipantInfo, textViewDescription, textViewStatusBadge;
             View buttonEdit, buttonCancel, buttonViewParticipants, buttonFinish;
 
             public EventViewHolder(@NonNull View itemView) {
                 super(itemView);
                 textViewName = itemView.findViewById(R.id.textViewEventName);
+                textViewVenue = itemView.findViewById(R.id.textViewEventVenue);
                 textViewDate = itemView.findViewById(R.id.textViewEventDate);
                 textViewTime = itemView.findViewById(R.id.textViewEventTime);
                 textViewParticipantInfo = itemView.findViewById(R.id.textViewParticipantInfo);
@@ -254,15 +273,21 @@ public class ManageEventsActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         EditText editName = dialogView.findViewById(R.id.editEventName);
+        EditText editVenue = dialogView.findViewById(R.id.editEventVenue);
         EditText editDate = dialogView.findViewById(R.id.editEventDate);
+        EditText editEndDate = dialogView.findViewById(R.id.editEndDate);
         EditText editTime = dialogView.findViewById(R.id.editEventTime);
+        EditText editEndTime = dialogView.findViewById(R.id.editEndTime);
         EditText editDescription = dialogView.findViewById(R.id.editEventDescription);
         EditText editLimit = dialogView.findViewById(R.id.editParticipantLimit);
 
         // Pre-fill
         editName.setText(String.valueOf(event.get("name")));
+        editVenue.setText(String.valueOf(event.get("venue") != null ? event.get("venue") : ""));
         editDate.setText(String.valueOf(event.get("date")));
+        editEndDate.setText(String.valueOf(event.get("endDate") != null ? event.get("endDate") : ""));
         editTime.setText(String.valueOf(event.get("time")));
+        editEndTime.setText(String.valueOf(event.get("endTime") != null ? event.get("endTime") : ""));
         editDescription.setText(String.valueOf(event.get("description")));
         editLimit.setText(String.valueOf(event.get("participantLimit")));
 
@@ -274,6 +299,13 @@ public class ManageEventsActivity extends AppCompatActivity {
                 c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
         });
 
+        editEndDate.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            new DatePickerDialog(this, (view, y, m, d) -> 
+                editEndDate.setText(String.format(Locale.getDefault(), "%02d/%02d/%d", d, m + 1, y)),
+                c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+        });
+
         editTime.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
             new TimePickerDialog(this, (view, h, min) -> 
@@ -281,14 +313,25 @@ public class ManageEventsActivity extends AppCompatActivity {
                 c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
         });
 
+        editEndTime.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            new TimePickerDialog(this, (view, h, min) -> 
+                editEndTime.setText(String.format(Locale.getDefault(), "%02d:%02d", h, min)),
+                c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
+        });
+
         builder.setPositiveButton("Update", (dialog, which) -> {
             String newName = editName.getText().toString().trim();
+            String newVenue = editVenue.getText().toString().trim();
             String newDate = editDate.getText().toString().trim();
+            String newEndDate = editEndDate.getText().toString().trim();
             String newTime = editTime.getText().toString().trim();
+            String newEndTime = editEndTime.getText().toString().trim();
             String newDesc = editDescription.getText().toString().trim();
             String limitStr = editLimit.getText().toString().trim();
 
-            if (newName.isEmpty() || newDate.isEmpty() || newTime.isEmpty() || newDesc.isEmpty() || limitStr.isEmpty()) {
+            if (newName.isEmpty() || newVenue.isEmpty() || newDate.isEmpty() || newEndDate.isEmpty() || 
+                newTime.isEmpty() || newEndTime.isEmpty() || newDesc.isEmpty() || limitStr.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -298,8 +341,11 @@ public class ManageEventsActivity extends AppCompatActivity {
 
             Map<String, Object> updates = new HashMap<>();
             updates.put("name", newName);
+            updates.put("venue", newVenue);
             updates.put("date", newDate);
+            updates.put("endDate", newEndDate);
             updates.put("time", newTime);
+            updates.put("endTime", newEndTime);
             updates.put("description", newDesc);
             updates.put("participantLimit", newLimit);
 

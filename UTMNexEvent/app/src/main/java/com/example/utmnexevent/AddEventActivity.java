@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class AddEventActivity extends AppCompatActivity {
 
-    private TextInputEditText editTextEventName, editTextEventDate, editTextEventTime, editTextParticipantLimit, editTextEventDescription;
+    private TextInputEditText editTextEventName, editTextEventDate, editTextEndDate, editTextEventTime, editTextEndTime, editTextVenue, editTextParticipantLimit, editTextEventDescription;
     private MaterialButton buttonSubmitEvent;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -46,8 +46,11 @@ public class AddEventActivity extends AppCompatActivity {
         });
 
         editTextEventName = findViewById(R.id.editTextEventName);
+        editTextVenue = findViewById(R.id.editTextVenue);
         editTextEventDate = findViewById(R.id.editTextEventDate);
+        editTextEndDate = findViewById(R.id.editTextEndDate);
         editTextEventTime = findViewById(R.id.editTextEventTime);
+        editTextEndTime = findViewById(R.id.editTextEndTime);
         editTextParticipantLimit = findViewById(R.id.editTextParticipantLimit);
         editTextEventDescription = findViewById(R.id.editTextEventDescription);
         buttonSubmitEvent = findViewById(R.id.buttonSubmitEvent);
@@ -56,19 +59,29 @@ public class AddEventActivity extends AppCompatActivity {
 
         // Setup Pickers - aggressive listeners
         TextInputLayout dateLayout = findViewById(R.id.eventDateLayout);
-        View.OnClickListener dateListener = v -> showDatePicker();
+        View.OnClickListener dateListener = v -> showDatePicker(editTextEventDate);
         editTextEventDate.setOnClickListener(dateListener);
         dateLayout.setStartIconOnClickListener(dateListener);
 
+        TextInputLayout endDateLayout = findViewById(R.id.endDateLayout);
+        View.OnClickListener endDateListener = v -> showDatePicker(editTextEndDate);
+        editTextEndDate.setOnClickListener(endDateListener);
+        endDateLayout.setStartIconOnClickListener(endDateListener);
+
         TextInputLayout timeLayout = findViewById(R.id.eventTimeLayout);
-        View.OnClickListener timeListener = v -> showTimePicker();
+        View.OnClickListener timeListener = v -> showTimePicker(editTextEventTime);
         editTextEventTime.setOnClickListener(timeListener);
         timeLayout.setStartIconOnClickListener(timeListener);
+
+        TextInputLayout endTimeLayout = findViewById(R.id.endTimeLayout);
+        View.OnClickListener endTimeListener = v -> showTimePicker(editTextEndTime);
+        editTextEndTime.setOnClickListener(endTimeListener);
+        endTimeLayout.setStartIconOnClickListener(endTimeListener);
 
         buttonSubmitEvent.setOnClickListener(v -> submitEvent());
     }
 
-    private void showDatePicker() {
+    private void showDatePicker(TextInputEditText targetField) {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -76,35 +89,40 @@ public class AddEventActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year1, monthOfYear, dayOfMonth) -> 
-                        editTextEventDate.setText(String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year1)),
+                        targetField.setText(String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year1)),
                 year, month, day);
         datePickerDialog.show();
     }
 
-    private void showTimePicker() {
+    private void showTimePicker(TextInputEditText targetField) {
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 (view, hourOfDay, minute1) -> 
-                        editTextEventTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1)),
+                        targetField.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1)),
                 hour, minute, true);
         timePickerDialog.show();
     }
 
     private void submitEvent() {
         if (editTextEventName.getText() == null || editTextEventDate.getText() == null || 
-            editTextEventTime.getText() == null || editTextParticipantLimit.getText() == null ||
-            editTextEventDescription.getText() == null) return;
+            editTextEndDate.getText() == null || editTextEventTime.getText() == null ||
+            editTextEndTime.getText() == null || editTextVenue.getText() == null ||
+            editTextParticipantLimit.getText() == null || editTextEventDescription.getText() == null) return;
 
         String name = editTextEventName.getText().toString().trim();
+        String venue = editTextVenue.getText().toString().trim();
         String date = editTextEventDate.getText().toString().trim();
+        String endDate = editTextEndDate.getText().toString().trim();
         String time = editTextEventTime.getText().toString().trim();
+        String endTime = editTextEndTime.getText().toString().trim();
         String limitStr = editTextParticipantLimit.getText().toString().trim();
         String description = editTextEventDescription.getText().toString().trim();
 
-        if (name.isEmpty() || date.isEmpty() || time.isEmpty() || limitStr.isEmpty() || description.isEmpty()) {
+        if (name.isEmpty() || venue.isEmpty() || date.isEmpty() || endDate.isEmpty() || 
+            time.isEmpty() || endTime.isEmpty() || limitStr.isEmpty() || description.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -121,8 +139,11 @@ public class AddEventActivity extends AppCompatActivity {
 
         Map<String, Object> event = new HashMap<>();
         event.put("name", name);
+        event.put("venue", venue);
         event.put("date", date);
+        event.put("endDate", endDate);
         event.put("time", time);
+        event.put("endTime", endTime);
         event.put("participantLimit", limit);
         event.put("description", description);
         event.put("organizerId", organizerId);
