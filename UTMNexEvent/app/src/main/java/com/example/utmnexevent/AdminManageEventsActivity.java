@@ -162,14 +162,14 @@ public class AdminManageEventsActivity extends AppCompatActivity {
             // Status Badge
             if ("completed".equals(status)) {
                 holder.textViewStatusBadge.setText("COMPLETED");
-                holder.textViewStatusBadge.getBackground().setTint(0xFFEEEEEE);
-                holder.textViewStatusBadge.setTextColor(0xFF757575);
+                holder.textViewStatusBadge.getBackground().setTint(0xFFFFEBEE);
+                holder.textViewStatusBadge.setTextColor(0xFFD32F2F);
                 holder.buttonFinish.setVisibility(View.GONE);
                 holder.buttonEdit.setVisibility(View.GONE);
             } else {
                 holder.textViewStatusBadge.setText("ACTIVE");
-                holder.textViewStatusBadge.getBackground().setTint(0xFFE3F2FD); // Light Blue for Admin Active
-                holder.textViewStatusBadge.setTextColor(0xFF1976D2);
+                holder.textViewStatusBadge.getBackground().setTint(0xFFE8F5E9); // Light Green for Admin Active
+                holder.textViewStatusBadge.setTextColor(0xFF2E7D32);
                 holder.buttonFinish.setVisibility(View.VISIBLE);
                 holder.buttonEdit.setVisibility(View.VISIBLE);
             }

@@ -39,7 +39,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:text="ACTIVE"
-                android:textColor="#424242"
+                android:textColor="#2E7D32"
                 android:textSize="10sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -130,6 +130,16 @@
             android:gravity="end">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFinishEvent"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="Finish"
+                android:textColor="#1AA813"
+                android:textSize="8sp"
+                app:iconTint="#2E7D32" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonViewParticipants"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
@@ -140,22 +150,12 @@
                 app:iconTint="#000000" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonFinishEvent"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="Finish"
-                android:textColor="#2E7D32"
-                android:textSize="8sp"
-                app:iconTint="#2E7D32" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="Edit"
-                android:textColor="#000000"
+                android:textColor="#3F51B5"
                 android:textSize="8sp"
                 app:iconTint="#000000" />
 
@@ -164,7 +164,6 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="Delete"
                 android:textColor="#D32F2F"
                 android:textSize="8sp"
