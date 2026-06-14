@@ -76,10 +76,17 @@
                 android:textColor="#757575"
                 android:textSize="14sp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="16dp"
                 android:contentDescription="Time"
                 android:src="@android:drawable/ic_menu_recent_history"
                 app:tint="#757575" />
@@ -93,6 +100,7 @@
                 android:textColor="#757575"
                 android:textSize="14sp" />
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/textViewParticipantInfo"
@@ -128,38 +136,38 @@
                 android:layout_height="wrap_content"
                 android:text="View Participants"
                 android:textColor="#000000"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 app:iconTint="#000000" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonFinishEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="Finish"
                 android:textColor="#2E7D32"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 app:iconTint="#2E7D32" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="Edit"
                 android:textColor="#000000"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 app:iconTint="#000000" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCancelEvent"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Delete"
                 android:textColor="#D32F2F"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 app:iconTint="#D32F2F" />
         </LinearLayout>
 

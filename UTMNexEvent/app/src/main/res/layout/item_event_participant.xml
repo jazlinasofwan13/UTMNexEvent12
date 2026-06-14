@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -55,22 +55,30 @@
                 android:textColor="#757575"
                 android:textSize="14sp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="16dp"
                 android:contentDescription="Time"
                 android:src="@android:drawable/ic_menu_recent_history"
                 app:tint="#757575" />
 
             <TextView
-                android:id="@+id/textViewEventTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Time"
-                android:textColor="#757575"
-                android:textSize="14sp" />
+            android:id="@+id/textViewEventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Time"
+            android:textColor="#757575"
+            android:textSize="14sp" />
+
         </LinearLayout>
 
         <TextView
@@ -98,9 +106,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:backgroundTint="#D32F2F"
             android:text="Join Event"
             android:textAllCaps="false"
-            android:backgroundTint="#D32F2F"
             app:cornerRadius="8dp" />
 
         <LinearLayout
@@ -115,10 +123,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:gravity="center"
                 android:text="You already joined this event"
-                android:textStyle="bold"
                 android:textColor="#2E7D32"
-                android:gravity="center" />
+                android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCancelJoin"
@@ -126,8 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cancel Participation"
-                android:textColor="#D32F2F"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:textColor="#D32F2F" />
         </LinearLayout>
 
     </LinearLayout>
